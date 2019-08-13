@@ -62,9 +62,9 @@ namespace ClientGUI
                 QResProcess.StartInfo.FileName = ProgramConstants.QRES_EXECUTABLE;
                 QResProcess.StartInfo.UseShellExecute = false;
                 if (!string.IsNullOrEmpty(extraCommandLine))
-                    QResProcess.StartInfo.Arguments = "c=16 /R " + "\"" + ProgramConstants.GamePath + gameExecutableName + "\" "  + additionalExecutableName + "-SPAWN " + extraCommandLine;
+                    QResProcess.StartInfo.Arguments = "c=16 /R " + "\"" + ProgramConstants.GamePath + gameExecutableName + "\" "  + additionalExecutableName + "" + extraCommandLine;
                 else
-                    QResProcess.StartInfo.Arguments = "c=16 /R " + "\"" + ProgramConstants.GamePath + gameExecutableName + "\" " + additionalExecutableName  + "-SPAWN";
+                    QResProcess.StartInfo.Arguments = "c=16 /R " + "\"" + ProgramConstants.GamePath + gameExecutableName + "\" " + additionalExecutableName  + "";
                 QResProcess.EnableRaisingEvents = true;
                 QResProcess.Exited += new EventHandler(Process_Exited);
                 Logger.Log("Launch executable: " + QResProcess.StartInfo.FileName);
@@ -93,9 +93,9 @@ namespace ClientGUI
                 DtaProcess.StartInfo.FileName = gameExecutableName;
                 DtaProcess.StartInfo.UseShellExecute = false;
                 if (!string.IsNullOrEmpty(extraCommandLine))
-                    DtaProcess.StartInfo.Arguments = " " + additionalExecutableName + "-SPAWN " + extraCommandLine;
+                    DtaProcess.StartInfo.Arguments = " " + additionalExecutableName + "" + extraCommandLine;
                 else
-                    DtaProcess.StartInfo.Arguments = additionalExecutableName + "-SPAWN";
+                    DtaProcess.StartInfo.Arguments = additionalExecutableName + "";
                 DtaProcess.EnableRaisingEvents = true;
                 DtaProcess.Exited += new EventHandler(Process_Exited);
                 Logger.Log("Launch executable: " + DtaProcess.StartInfo.FileName);

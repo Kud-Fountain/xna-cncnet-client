@@ -234,9 +234,9 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
                 channel.SendCTCPMessage(TUNNEL_PING_CTCP_COMMAND + " " + tunnel.PingInMs, QueuedMessageType.SYSTEM_MESSAGE, 10);
 
                 if (tunnel.PingInMs < 0)
-                    AddNotice(ProgramConstants.PLAYERNAME + " - unknown ping to tunnel server.");
+                    AddNotice(ProgramConstants.PLAYERNAME + " - 连接到服务器的延迟未知。");
                 else
-                    AddNotice(ProgramConstants.PLAYERNAME + " - ping to tunnel server: " + tunnel.PingInMs + " ms");
+                    AddNotice(ProgramConstants.PLAYERNAME + " - 连接到服务器的延迟为： " + tunnel.PingInMs + "毫秒");
             }
 
             topBar.AddPrimarySwitchable(this);
@@ -408,9 +408,9 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
         private void HandleTunnelPingNotification(string sender, int pingInMs)
         {
             if (pingInMs < 0)
-                AddNotice(sender + " - unknown ping to tunnel server.");
+                AddNotice(sender + " - 连接到服务器的延迟未知");
             else
-                AddNotice(sender + " - ping to tunnel server: " + pingInMs + " ms");
+                AddNotice(sender + " - 连接到服务器的延迟为： " + pingInMs + "毫秒");
         }
 
         /// <summary>
@@ -534,13 +534,13 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
 
         protected override void HostStartGame()
         {
-            AddNotice("Contacting tunnel server..");
+            AddNotice("连接到服务器...");
             List<int> playerPorts = tunnel.GetPlayerPortInfo(SGPlayers.Count);
 
             if (playerPorts.Count < Players.Count)
             {
-                AddNotice("An error occured while contacting the specified CnCNet tunnel server. Please try using a different tunnel server " +
-                    "(accessible through the advanced options in the game creation window).", Color.Yellow);
+                AddNotice("连接到服务器时出现了错误。请切换到其他的服务器。 " +
+                    "（在创建游戏的窗口里点击更换服务器）。", Color.Yellow);
                 return;
             }
 
@@ -557,7 +557,7 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
             sb.Remove(sb.Length - 1, 1);
             channel.SendCTCPMessage(sb.ToString(), QueuedMessageType.SYSTEM_MESSAGE, 9);
 
-            AddNotice("Starting game..");
+            AddNotice("启动游戏...");
 
             started = true;
 

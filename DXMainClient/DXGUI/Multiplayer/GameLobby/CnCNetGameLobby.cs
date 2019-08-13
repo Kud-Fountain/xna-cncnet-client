@@ -224,9 +224,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 channel.SendCTCPMessage("TNLPNG " + tunnel.PingInMs, QueuedMessageType.SYSTEM_MESSAGE, 10);
 
                 if (tunnel.PingInMs < 0)
-                    AddNotice(ProgramConstants.PLAYERNAME + " - unknown ping to tunnel server.");
+                    AddNotice(ProgramConstants.PLAYERNAME + " - 连接到服务器的延迟未知。");
                 else
-                    AddNotice(ProgramConstants.PLAYERNAME + " - ping to tunnel server: " + tunnel.PingInMs + " ms");
+                    AddNotice(ProgramConstants.PLAYERNAME + " - 连接到服务器的延迟为： " + tunnel.PingInMs + "毫秒");
             }
 
             TopBar.AddPrimarySwitchable(this);
@@ -333,7 +333,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.UserName == hostName)
             {
                 connectionManager.MainChannel.AddMessage(new ChatMessage(
-                    ERROR_MESSAGE_COLOR, "The game host abandoned the game."));
+                    ERROR_MESSAGE_COLOR, "房主丢弃了该场游戏。"));
                 BtnLeaveGame_LeftClick(this, EventArgs.Empty);
             }
         }
@@ -345,7 +345,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.UserName == hostName)
             {
                 connectionManager.MainChannel.AddMessage(new ChatMessage(
-                    ERROR_MESSAGE_COLOR, "The game host abandoned the game."));
+                    ERROR_MESSAGE_COLOR, "房主丢弃了该场游戏。"));
                 BtnLeaveGame_LeftClick(this, EventArgs.Empty);
             }
         }
@@ -355,7 +355,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.UserName == ProgramConstants.PLAYERNAME)
             {
                 connectionManager.MainChannel.AddMessage(new ChatMessage(
-                    ERROR_MESSAGE_COLOR, "You were kicked from the game!"));
+                    ERROR_MESSAGE_COLOR, "你被踢出了房间！"));
                 Clear();
                 this.Visible = false;
                 this.Enabled = false;
@@ -379,7 +379,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 if (channel.Users.FindIndex(u => u.IRCUser.Name == hostName) < 0)
                 {
                     connectionManager.MainChannel.AddMessage(new ChatMessage(
-                        ERROR_MESSAGE_COLOR, "The game host has abandoned the game."));
+                        ERROR_MESSAGE_COLOR, "房主丢弃了该场游戏。"));
                     BtnLeaveGame_LeftClick(this, EventArgs.Empty);
                 }
             }
@@ -419,7 +419,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (Players.Count >= playerLimit)
             {
-                AddNotice("Player limit reached; the game room has been locked.");
+                AddNotice("玩家数量已达到上限； 游戏房间已被锁定。");
                 LockGame();
             }
         }
@@ -452,12 +452,12 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.ModeString == "+i")
             {
                 if (Players.Count >= playerLimit)
-                    AddNotice("Player limit reached; the game room has been locked.");
+                    AddNotice("玩家数量已达到上限； 游戏房间已被锁定。");
                 else
-                    AddNotice("The game host has locked the game room.");
+                    AddNotice("房主解锁了游戏房间。");
             }
             else if (e.ModeString == "-i")
-                AddNotice("The game room has been unlocked.");
+                AddNotice("游戏房间已解锁。");
         }
 
         private void Channel_CTCPReceived(object sender, ChannelCTCPEventArgs e)
@@ -495,7 +495,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             if (Players.Count > 1)
             {
-                AddNotice("Contacting tunnel server..");
+                AddNotice("正在连接服务器...");
 
                 List<int> playerPorts = tunnel.GetPlayerPortInfo(Players.Count);
 
@@ -961,9 +961,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                     if (checkBox.Checked != boolArray[optionIndex])
                     {
                         if (boolArray[optionIndex])
-                            AddNotice("The game host has enabled " + checkBox.Text);
+                            AddNotice("房主开启了 " + checkBox.Text);
                         else
-                            AddNotice("The game host has disabled " + checkBox.Text);
+                            AddNotice("房主关闭了 " + checkBox.Text);
                     }
 
                     CheckBoxes[gameOptionIndex].Checked = boolArray[optionIndex];
@@ -1000,7 +1000,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                     if (dd.OptionName == null)
                         ddName = dd.Name;
 
-                    AddNotice("The game host has set " + ddName + " to " + dd.Items[ddSelectedIndex].Text);
+                    AddNotice("房主设置 " + ddName + " 为 " + dd.Items[ddSelectedIndex].Text);
                 }
 
                 DropDowns[i - checkBoxIntegerCount].SelectedIndex = ddSelectedIndex;
@@ -1121,7 +1121,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         protected override void StartGame()
         {
-            AddNotice("Starting game..");
+            AddNotice("启动游戏...");
 
             FileHashCalculator fhc = new FileHashCalculator();
             fhc.CalculateHashes(GameModes);
@@ -1254,7 +1254,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void ReturnNotification(string sender)
         {
-            AddNotice(sender + " has returned from the game.");
+            AddNotice(sender + " 返回了游戏。");
 
             PlayerInfo pInfo = Players.Find(p => p.Name == sender);
 
@@ -1266,10 +1266,10 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             if (ping > -1)
             {
-                AddNotice(sender + " - ping to tunnel server: " + ping + " ms");
+                AddNotice(sender + " - 连接到服务器的延迟为： " + ping + "毫秒");
             }
             else
-                AddNotice(sender + " - unknown ping to tunnel server.");
+                AddNotice(sender + " - 连接到服务器的延迟未知。");
         }
 
         private void FileHashNotification(string sender, string filesHash)
@@ -1294,8 +1294,8 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (sender != hostName)
                 return;
 
-            AddNotice("Player " + cheaterName + " has different files compared to the game host. Either " + 
-                cheaterName + " or the game host could be cheating.", Color.Red);
+            AddNotice("玩家 " + cheaterName + " 拥有不同于房主的游戏文件。玩家 " + 
+                cheaterName + " 或者房主都有可能正在作弊。", Color.Red);
         }
 
         protected override void BroadcastDiceRoll(int dieSides, int[] results)
@@ -1333,7 +1333,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 string.Format("MODE {0} +i", channel.ChannelName), QueuedMessageType.INSTANT_MESSAGE, -1));
 
             Locked = true;
-            btnLockGame.Text = "Unlock Game";
+            btnLockGame.Text = "解锁房间";
             AccelerateGameBroadcasting();
         }
 
@@ -1356,7 +1356,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             var pInfo = Players[playerIndex];
 
-            AddNotice("Kicking " + pInfo.Name + " from the game...");
+            AddNotice("正在踢出 " + pInfo.Name + " ...");
             channel.SendKickMessage(pInfo.Name, 8);
         }
 
@@ -1669,7 +1669,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         public override string GetSwitchName()
         {
-            return "Game Lobby";
+            return "游戏房间";
         }
     }
 }

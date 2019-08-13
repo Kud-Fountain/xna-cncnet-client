@@ -795,29 +795,29 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         protected virtual void LockGameNotification()
         {
-            AddNotice("You need to lock the game room before launching the game.");
+            AddNotice("你需要锁定房间才可以运行游戏。");
         }
 
         protected virtual void SharedColorsNotification()
         {
-            AddNotice("Multiple human players cannot share the same color.");
+            AddNotice("不能与其他玩家共用同一种颜色。");
         }
 
         protected virtual void AISpectatorsNotification()
         {
-            AddNotice("AI players don't enjoy spectating matches. They want some action!");
+            AddNotice("请为AI玩家分配一个非观察者的子阵营。");
         }
 
         protected virtual void SharedStartingLocationNotification()
         {
-            AddNotice("Multiple players cannot share the same starting location on this map.");
+            AddNotice("不能与其他玩家共用同一个出生位置。");
         }
 
         protected virtual void NotVerifiedNotification(int playerIndex)
         {
             if (playerIndex > -1 && playerIndex < Players.Count)
             {
-                AddNotice(string.Format("Unable to launch game; player {0} hasn't been verified.", Players[playerIndex].Name));
+                AddNotice(string.Format("无法启动游戏：玩家 {0} 尚未验证。", Players[playerIndex].Name));
             }
         }
 
@@ -825,26 +825,26 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             if (playerIndex > -1 && playerIndex < Players.Count)
             {
-                AddNotice("Unable to launch game; player " + Players[playerIndex].Name + " is still playing the game you started previously.");
+                AddNotice("无法启动游戏：玩家 " + Players[playerIndex].Name + " 仍在进行上一场游戏。");
             }
         }
 
         protected virtual void GetReadyNotification()
         {
-            AddNotice("The host wants to start the game but cannot because not all players are ready!");
+            AddNotice("房主想要开始游戏但还有玩家没有准备好！");
             sndGetReadySound.Play();
         }
 
         protected virtual void InsufficientPlayersNotification()
         {
             if (Map != null)
-                AddNotice("Unable to launch game: this map cannot be played with fewer than " + Map.MinPlayers + " players.");
+                AddNotice("无法启动游戏：该地图需要至少 " + Map.MinPlayers + " 名玩家才能启动。");
         }
 
         protected virtual void TooManyPlayersNotification()
         {
             if (Map != null)
-                AddNotice("Unable to launch game: this map cannot be played with more than " + Map.MaxPlayers + " players.");
+                AddNotice("无法启动游戏：该地图最多只能容纳 " + Map.MaxPlayers + " 名玩家。");
         }
 
         public virtual void Clear()

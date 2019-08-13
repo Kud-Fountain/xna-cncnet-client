@@ -97,9 +97,9 @@ namespace DTAClient.DXGUI.Multiplayer
             lblMap.Visible = true;
             lblGameVersion.Text = "游戏版本：" + Renderer.GetSafeString(game.GameVersion, lblGameVersion.FontIndex);
             lblGameVersion.Visible = true;
-            lblHost.Text = "Host: " + Renderer.GetSafeString(game.HostName, lblHost.FontIndex);
+            lblHost.Text = "房主：" + Renderer.GetSafeString(game.HostName, lblHost.FontIndex);
             lblHost.Visible = true;
-            lblPing.Text = game.Ping > 0 ? "延迟：" + game.Ping.ToString() + "毫米" : "延迟：未知";
+            lblPing.Text = game.Ping > 0 ? "延迟：" + game.Ping.ToString() + "毫秒" : "延迟：未知";
             lblPing.Visible = true;
             lblPlayers.Visible = true;
             lblPlayers.Text = "玩家（" + game.Players.Length + " / " + game.MaxPlayers + "）：";

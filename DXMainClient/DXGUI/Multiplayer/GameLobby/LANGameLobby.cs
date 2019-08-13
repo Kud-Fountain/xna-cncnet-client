@@ -433,7 +433,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         public override string GetSwitchName()
         {
-            return "LAN Game Lobby";
+            return "局域网游戏房间";
         }
 
         protected override void AddNotice(string message, Color color)
@@ -619,7 +619,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void ReturnNotification(string sender)
         {
-            AddNotice(sender + " has returned from the game.");
+            AddNotice(sender + " 返回了游戏。");
 
             PlayerInfo pInfo = Players.Find(p => p.Name == sender);
 

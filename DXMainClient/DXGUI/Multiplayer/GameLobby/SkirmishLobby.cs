@@ -91,14 +91,14 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (totalPlayerCount < Map.MinPlayers)
             {
-                return "The selected map cannot be played with less than " + Map.MinPlayers + " players.";
+                return "无法启动游戏：该地图需要至少 " + Map.MinPlayers + " 名玩家才能启动。";
             }
 
             if (Map.EnforceMaxPlayers)
             {
                 if (totalPlayerCount > Map.MaxPlayers)
                 {
-                    return "The selected map cannot be played with more than " + Map.MaxPlayers + " players.";
+                    return "无法启动游戏：该地图最多只能容纳 " + Map.MaxPlayers + " 名玩家。";
                 }
 
                 IEnumerable<PlayerInfo> concatList = Players.Concat(AIPlayers);
@@ -110,7 +110,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
                     if (concatList.Count(p => p.StartingLocation == pInfo.StartingLocation) > 1)
                     {
-                        return "Multiple players cannot share the same starting location on the selected map.";
+                        return "不能与其他玩家共用同一个出生位置。";
                     }
                 }
             }
@@ -134,7 +134,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 return;
             }
 
-            XNAMessageBox.Show(WindowManager, "Cannot launch game", error);
+            XNAMessageBox.Show(WindowManager, "无法启动游戏", error);
         }
 
         protected override void BtnLeaveGame_LeftClick(object sender, EventArgs e)
@@ -186,7 +186,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         public string GetSwitchName()
         {
-            return "Skirmish Lobby";
+            return "遭遇战房间";
         }
 
         /// <summary>

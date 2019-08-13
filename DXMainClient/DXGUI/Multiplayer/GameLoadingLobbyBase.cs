@@ -94,7 +94,7 @@ namespace DTAClient.DXGUI.Multiplayer
                 XNALabel lblPlayerName = new XNALabel(WindowManager);
                 lblPlayerName.Name = "lblPlayerName" + i;
                 lblPlayerName.ClientRectangle = new Rectangle(9, 9 + 30 * i, 0, 0);
-                lblPlayerName.Text = "Player " + i;
+                lblPlayerName.Text = "玩家 " + i;
                 panelPlayers.AddChild(lblPlayerName);
                 lblPlayerNames[i] = lblPlayerName;
             }
@@ -104,7 +104,7 @@ namespace DTAClient.DXGUI.Multiplayer
                 XNALabel lblPlayerName = new XNALabel(WindowManager);
                 lblPlayerName.Name = "lblPlayerName" + i;
                 lblPlayerName.ClientRectangle = new Rectangle(190, 9 + 30 * (i - 4), 0, 0);
-                lblPlayerName.Text = "Player " + i;
+                lblPlayerName.Text = "玩家 " + i;
                 panelPlayers.AddChild(lblPlayerName);
                 lblPlayerNames[i] = lblPlayerName;
             }
@@ -114,33 +114,33 @@ namespace DTAClient.DXGUI.Multiplayer
             lblMapName.FontIndex = 1;
             lblMapName.ClientRectangle = new Rectangle(panelPlayers.Right + 12,
                 panelPlayers.Y, 0, 0);
-            lblMapName.Text = "MAP:";
+            lblMapName.Text = "地图：";
 
             lblMapNameValue = new XNALabel(WindowManager);
             lblMapNameValue.Name = "lblMapNameValue";
             lblMapNameValue.ClientRectangle = new Rectangle(lblMapName.X,
                 lblMapName.Y + 18, 0, 0);
-            lblMapNameValue.Text = "Map name";
+            lblMapNameValue.Text = "地图名称";
 
             lblGameMode = new XNALabel(WindowManager);
             lblGameMode.Name = "lblGameMode";
             lblGameMode.ClientRectangle = new Rectangle(lblMapName.X,
                 panelPlayers.Y + 40, 0, 0);
             lblGameMode.FontIndex = 1;
-            lblGameMode.Text = "GAME MODE:";
+            lblGameMode.Text = "游戏模式";
 
             lblGameModeValue = new XNALabel(WindowManager);
             lblGameModeValue.Name = "lblGameModeValue";
             lblGameModeValue.ClientRectangle = new Rectangle(lblGameMode.X,
                 lblGameMode.Y + 18, 0, 0);
-            lblGameModeValue.Text = "Game mode";
+            lblGameModeValue.Text = "游戏模式：";
 
             lblSavedGameTime = new XNALabel(WindowManager);
             lblSavedGameTime.Name = "lblSavedGameTime";
             lblSavedGameTime.ClientRectangle = new Rectangle(lblMapName.X,
                 panelPlayers.Bottom - 40, 0, 0);
             lblSavedGameTime.FontIndex = 1;
-            lblSavedGameTime.Text = "SAVED GAME:";
+            lblSavedGameTime.Text = "保存的游戏：";
 
             ddSavedGame = new XNAClientDropDown(WindowManager);
             ddSavedGame.Name = "ddSavedGame";
@@ -168,14 +168,14 @@ namespace DTAClient.DXGUI.Multiplayer
             btnLoadGame.Name = "btnLoadGame";
             btnLoadGame.ClientRectangle = new Rectangle(lbChatMessages.X,
                 tbChatInput.Bottom + 6, 133, 23);
-            btnLoadGame.Text = "Load Game";
+            btnLoadGame.Text = "载入游戏";
             btnLoadGame.LeftClick += BtnLoadGame_LeftClick;
 
             btnLeaveGame = new XNAClientButton(WindowManager);
             btnLeaveGame.Name = "btnLeaveGame";
             btnLeaveGame.ClientRectangle = new Rectangle(Width - 145,
                 btnLoadGame.Y, 133, 23);
-            btnLeaveGame.Text = "Leave Game";
+            btnLeaveGame.Text = "离开游戏";
             btnLeaveGame.LeftClick += BtnLeaveGame_LeftClick;
 
             AddChild(lblMapName);

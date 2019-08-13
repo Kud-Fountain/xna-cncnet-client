@@ -92,8 +92,8 @@ namespace DTAConfig
                 ddCategory.Right - 12, Height - ddCategory.Bottom - 59);
             lbHotkeys.PanelBackgroundDrawMode = PanelBackgroundImageDrawMode.STRETCHED;
             lbHotkeys.BackgroundTexture = AssetLoader.CreateTexture(new Color(0, 0, 0, 128), 1, 1);
-            lbHotkeys.AddColumn("Command", 150);
-            lbHotkeys.AddColumn("Shortcut", lbHotkeys.Width - 150);
+            lbHotkeys.AddColumn("指令", 150);
+            lbHotkeys.AddColumn("快捷键", lbHotkeys.Width - 150);
 
             hotkeyInfoPanel = new XNAPanel(WindowManager);
             hotkeyInfoPanel.Name = "HotkeyInfoPanel";
@@ -116,7 +116,7 @@ namespace DTAConfig
             lblCurrentHotkey.ClientRectangle = new Rectangle(lblDescription.X,
                 lblDescription.Bottom + 48, 0, 0);
             lblCurrentHotkey.FontIndex = 1;
-            lblCurrentHotkey.Text = "Currently assigned hotkey:";
+            lblCurrentHotkey.Text = "当前设定的快捷键：";
 
             lblCurrentHotkeyValue = new XNALabel(WindowManager);
             lblCurrentHotkeyValue.Name = "lblCurrentHotkeyValue";
@@ -129,7 +129,7 @@ namespace DTAConfig
             lblNewHotkey.ClientRectangle = new Rectangle(lblDescription.X,
                 lblCurrentHotkeyValue.Bottom + 48, 0, 0);
             lblNewHotkey.FontIndex = 1;
-            lblNewHotkey.Text = "New hotkey:";
+            lblNewHotkey.Text = "新的快捷键";
 
             lblNewHotkeyValue = new XNALabel(WindowManager);
             lblNewHotkeyValue.Name = "lblNewHotkeyValue";
@@ -147,19 +147,19 @@ namespace DTAConfig
             btnAssign.Name = "btnAssign";
             btnAssign.ClientRectangle = new Rectangle(lblDescription.X,
                 lblCurrentlyAssignedTo.Bottom + 24, 121, 23);
-            btnAssign.Text = "Assign Hotkey";
+            btnAssign.Text = "指定";
             btnAssign.LeftClick += BtnAssign_LeftClick;
 
             btnResetKey = new XNAClientButton(WindowManager);
             btnResetKey.Name = "btnResetKey";
             btnResetKey.ClientRectangle = new Rectangle(btnAssign.X, btnAssign.Bottom + 12, btnAssign.Width, 23);
-            btnResetKey.Text = "Reset to Default";
+            btnResetKey.Text = "重置为默认";
             btnResetKey.LeftClick += BtnReset_LeftClick;
 
             var lblDefaultHotkey = new XNALabel(WindowManager);
             lblDefaultHotkey.Name = "lblOriginalHotkey";
             lblDefaultHotkey.ClientRectangle = new Rectangle(lblCurrentHotkey.X, btnResetKey.Bottom + 12, 0, 0);
-            lblDefaultHotkey.Text = "Default hotkey:";
+            lblDefaultHotkey.Text = "默认快捷键：";
 
             lblDefaultHotkeyValue = new XNALabel(WindowManager);
             lblDefaultHotkeyValue.Name = "lblDefaultHotkeyValue";
@@ -168,13 +168,13 @@ namespace DTAConfig
             var btnSave = new XNAClientButton(WindowManager);
             btnSave.Name = "btnSave";
             btnSave.ClientRectangle = new Rectangle(12, lbHotkeys.Bottom + 12, 92, 23);
-            btnSave.Text = "Save";
+            btnSave.Text = "保存";
             btnSave.LeftClick += BtnSave_LeftClick;
 
             var btnResetAllKeys = new XNAClientButton(WindowManager);
             btnResetAllKeys.Name = "btnResetAllToDefaults";
             btnResetAllKeys.ClientRectangle = new Rectangle(0, btnSave.Y, 121, 23);
-            btnResetAllKeys.Text = "Reset All Keys";
+            btnResetAllKeys.Text = "重置所有快捷键";
             btnResetAllKeys.LeftClick += BtnResetToDefaults_LeftClick;
             AddChild(btnResetAllKeys);
             btnResetAllKeys.CenterOnParentHorizontally();
@@ -182,7 +182,7 @@ namespace DTAConfig
             var btnCancel = new XNAClientButton(WindowManager);
             btnCancel.Name = "btnExit";
             btnCancel.ClientRectangle = new Rectangle(Width - 104, btnSave.Y, 92, 23);
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = "取消";
             btnCancel.LeftClick += BtnCancel_LeftClick;
 
             AddChild(lbHotkeys);
@@ -599,7 +599,7 @@ namespace DTAConfig
             public string ToStringWithNone()
             {
                 if (Key == Keys.None && Modifier == KeyModifiers.None)
-                    return "None";
+                    return "无";
 
                 return GetString();
             }

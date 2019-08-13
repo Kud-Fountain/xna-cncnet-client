@@ -1311,14 +1311,14 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             if (!Locked)
             {
-                AddNotice("You've locked the game room.");
+                AddNotice("你锁定了游戏房间。");
                 LockGame();
             }
             else
             {
                 if (Players.Count < playerLimit)
                 {
-                    AddNotice("You've unlocked the game room.");
+                    AddNotice("你解锁了游戏房间。");
                     UnlockGame(false);
                 }
                 else
@@ -1344,11 +1344,11 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             Locked = false;
             if (announce)
-                AddNotice("The game room has been unlocked.");
-            btnLockGame.Text = "Lock Game";
+                AddNotice("游戏房间已解除锁定。");
+            btnLockGame.Text = "锁定房间";
             AccelerateGameBroadcasting();
         }
-
+        
         protected override void KickPlayer(int playerIndex)
         {
             if (playerIndex >= Players.Count)

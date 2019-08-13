@@ -343,10 +343,10 @@ namespace DTAClient.DXGUI.Generic
                 UserINISettings.Instance.IsFirstRun.Value = false;
                 UserINISettings.Instance.SaveSettings();
 
-                firstRunMessageBox = XNAMessageBox.ShowYesNoDialog(WindowManager, "Initial Installation",
-                    string.Format("You have just installed {0}." + Environment.NewLine +
-                    "It's highly recommended that you configure your settings before playing." +
-                    Environment.NewLine + "Do you want to configure them now?", ClientConfiguration.Instance.LocalGame));
+                firstRunMessageBox = XNAMessageBox.ShowYesNoDialog(WindowManager, "初次运行",
+                    string.Format("监测到你是第一次运行{0}。" + Environment.NewLine +
+                    "强烈建议你在进行游戏之前调整你的设置。" +
+                    Environment.NewLine + "你想要现在就进行配置吗？", ClientConfiguration.Instance.LocalGame));
                 firstRunMessageBox.YesClickedAction = FirstRunMessageBox_YesClicked;
                 firstRunMessageBox.NoClickedAction = FirstRunMessageBox_NoClicked;
             }
@@ -886,7 +886,7 @@ namespace DTAClient.DXGUI.Generic
 
         public string GetSwitchName()
         {
-            return "Main Menu";
+            return "主菜单";
         }
     }
 }

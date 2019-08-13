@@ -89,7 +89,7 @@ namespace DTAClient.DXGUI.Generic
 
             var lblDifficultyLevel = new XNALabel(WindowManager);
             lblDifficultyLevel.Name = "lblDifficultyLevel";
-            lblDifficultyLevel.Text = "DIFFICULTY LEVEL";
+            lblDifficultyLevel.Text = "难度";
             lblDifficultyLevel.FontIndex = 1;
             Vector2 textSize = Renderer.GetTextDimensions(lblDifficultyLevel.Text, lblDifficultyLevel.FontIndex);
             lblDifficultyLevel.ClientRectangle = new Rectangle(
@@ -111,14 +111,14 @@ namespace DTAClient.DXGUI.Generic
             var lblEasy = new XNALabel(WindowManager);
             lblEasy.Name = "lblEasy";
             lblEasy.FontIndex = 1;
-            lblEasy.Text = "EASY";
+            lblEasy.Text = "简单";
             lblEasy.ClientRectangle = new Rectangle(trbDifficultySelector.X,
                 trbDifficultySelector.Bottom + 6, 1, 1);
 
             var lblNormal = new XNALabel(WindowManager);
             lblNormal.Name = "lblNormal";
             lblNormal.FontIndex = 1;
-            lblNormal.Text = "NORMAL";
+            lblNormal.Text = "中等";
             textSize = Renderer.GetTextDimensions(lblNormal.Text, lblNormal.FontIndex);
             lblNormal.ClientRectangle = new Rectangle(
                 tbMissionDescription.X + (tbMissionDescription.Width - (int)textSize.X) / 2,
@@ -127,7 +127,7 @@ namespace DTAClient.DXGUI.Generic
             var lblHard = new XNALabel(WindowManager);
             lblHard.Name = "lblHard";
             lblHard.FontIndex = 1;
-            lblHard.Text = "HARD";
+            lblHard.Text = "终结";
             lblHard.ClientRectangle = new Rectangle(
                 tbMissionDescription.Right - lblHard.Width,
                 lblEasy.Y, 1, 1);
@@ -135,7 +135,7 @@ namespace DTAClient.DXGUI.Generic
             btnLaunch = new XNAClientButton(WindowManager);
             btnLaunch.Name = "btnLaunch";
             btnLaunch.ClientRectangle = new Rectangle(12, Height - 35, 133, 23);
-            btnLaunch.Text = "Launch";
+            btnLaunch.Text = "开始任务";
             btnLaunch.AllowClick = false;
             btnLaunch.LeftClick += BtnLaunch_LeftClick;
 
@@ -143,7 +143,7 @@ namespace DTAClient.DXGUI.Generic
             btnCancel.Name = "btnCancel";
             btnCancel.ClientRectangle = new Rectangle(Width - 145,
                 btnLaunch.Y, 133, 23);
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = "返回主菜单";
             btnCancel.LeftClick += BtnCancel_LeftClick;
 
             AddChild(lblSelectCampaign);

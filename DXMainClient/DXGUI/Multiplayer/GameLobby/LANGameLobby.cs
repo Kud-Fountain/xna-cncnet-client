@@ -272,7 +272,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             lpInfo.MessageReceived += LpInfo_MessageReceived;
             lpInfo.ConnectionLost += LpInfo_ConnectionLost;
 
-            AddNotice(lpInfo.Name + " connected from " + lpInfo.IPAddress);
+            AddNotice(lpInfo.Name + " 从 " + lpInfo.IPAddress + " 连接到房间 ");
             lpInfo.StartReceiveLoop();
 
             CopyPlayerDataToUI();
@@ -580,20 +580,20 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             Locked = false;
 
-            btnLockGame.Text = "Lock Game";
+            btnLockGame.Text = "锁定房间";
 
             if (manual)
-                AddNotice("You've unlocked the game room.");
+                AddNotice("你解锁了游戏房间");
         }
 
         protected override void LockGame()
         {
             Locked = true;
 
-            btnLockGame.Text = "Unlock Game";
+            btnLockGame.Text = "解锁房间";
 
             if (Locked)
-                AddNotice("You've locked the game room.");
+                AddNotice("你锁定了游戏房间。");
         }
 
         protected override void GameProcessExited()

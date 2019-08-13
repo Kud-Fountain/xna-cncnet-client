@@ -63,7 +63,7 @@ namespace DTAConfig.OptionPanels
             var lblIngameResolution = new XNALabel(WindowManager);
             lblIngameResolution.Name = "lblIngameResolution";
             lblIngameResolution.ClientRectangle = new Rectangle(12, 14, 0, 0);
-            lblIngameResolution.Text = "In-game Resolution:";
+            lblIngameResolution.Text = "游戏分辨率：";
 
             ddIngameResolution = new XNAClientDropDown(WindowManager);
             ddIngameResolution.Name = "ddIngameResolution";
@@ -86,7 +86,7 @@ namespace DTAConfig.OptionPanels
             lblDetailLevel.Name = "lblDetailLevel";
             lblDetailLevel.ClientRectangle = new Rectangle(lblIngameResolution.X,
                 ddIngameResolution.Bottom + 16, 0, 0);
-            lblDetailLevel.Text = "Detail Level:";
+            lblDetailLevel.Text = "画质等级：";
 
             ddDetailLevel = new XNAClientDropDown(WindowManager);
             ddDetailLevel.Name = "ddDetailLevel";
@@ -103,7 +103,7 @@ namespace DTAConfig.OptionPanels
             lblRenderer.Name = "lblRenderer";
             lblRenderer.ClientRectangle = new Rectangle(lblDetailLevel.X,
                 ddDetailLevel.Bottom + 16, 0, 0);
-            lblRenderer.Text = "Renderer:";
+            lblRenderer.Text = "渲染补丁：";
 
             ddRenderer = new XNAClientDropDown(WindowManager);
             ddRenderer.Name = "ddRenderer";
@@ -141,7 +141,7 @@ namespace DTAConfig.OptionPanels
             chkWindowedMode.Name = "chkWindowedMode";
             chkWindowedMode.ClientRectangle = new Rectangle(lblDetailLevel.X,
                 ddRenderer.Bottom + 16, 0, 0);
-            chkWindowedMode.Text = "Windowed Mode";
+            chkWindowedMode.Text = "窗口化模式运行";
             chkWindowedMode.CheckedChanged += ChkWindowedMode_CheckedChanged;
 
             chkBorderlessWindowedMode = new XNAClientCheckBox(WindowManager);
@@ -149,7 +149,7 @@ namespace DTAConfig.OptionPanels
             chkBorderlessWindowedMode.ClientRectangle = new Rectangle(
                 chkWindowedMode.X + 50,
                 chkWindowedMode.Bottom + 24, 0, 0);
-            chkBorderlessWindowedMode.Text = "Borderless Windowed Mode";
+            chkBorderlessWindowedMode.Text = "窗口化模式无边框";
             chkBorderlessWindowedMode.AllowChecking = false;
 
             chkBackBufferInVRAM = new XNAClientCheckBox(WindowManager);
@@ -157,14 +157,14 @@ namespace DTAConfig.OptionPanels
             chkBackBufferInVRAM.ClientRectangle = new Rectangle(
                 lblDetailLevel.X,
                 chkBorderlessWindowedMode.Bottom + 28, 0, 0);
-            chkBackBufferInVRAM.Text = "Back Buffer in Video Memory" + Environment.NewLine +
-                "(lower performance, but is" + Environment.NewLine + "necessary on some systems)";
+            chkBackBufferInVRAM.Text = "开启显存优化" + Environment.NewLine +
+                "（会降低游戏性能，但在某些系统上是必要的）";
 
             var  lblClientResolution = new XNALabel(WindowManager);
             lblClientResolution.Name = "lblClientResolution";
             lblClientResolution.ClientRectangle = new Rectangle(
                 285, 14, 0, 0);
-            lblClientResolution.Text = "Client Resolution:";
+            lblClientResolution.Text = "客户端分辨率：";
 
             ddClientResolution = new XNAClientDropDown(WindowManager);
             ddClientResolution.Name = "ddClientResolution";
@@ -218,7 +218,7 @@ namespace DTAConfig.OptionPanels
             chkBorderlessClient.ClientRectangle = new Rectangle(
                 lblClientResolution.X,
                 lblDetailLevel.Y, 0, 0);
-            chkBorderlessClient.Text = "Fullscreen Client";
+            chkBorderlessClient.Text = "客户端全屏";
             chkBorderlessClient.CheckedChanged += ChkBorderlessMenu_CheckedChanged;
             chkBorderlessClient.Checked = true;
 
@@ -227,7 +227,7 @@ namespace DTAConfig.OptionPanels
             lblClientTheme.ClientRectangle = new Rectangle(
                 lblClientResolution.X,
                 lblRenderer.Y, 0, 0);
-            lblClientTheme.Text = "Client Theme:";
+            lblClientTheme.Text = "客户端主题：";
 
             ddClientTheme = new XNAClientDropDown(WindowManager);
             ddClientTheme.Name = "ddClientTheme";

@@ -58,19 +58,19 @@ namespace DTAClient.Online
             {
                 new IRCColor("Default color", false, cDefaultChatColor, 0),
                 new IRCColor("Default color #2", false, cDefaultChatColor, 1),
-                new IRCColor("Light Blue", true, Color.LightBlue, 2),
-                new IRCColor("Green", true, Color.ForestGreen, 3),
-                new IRCColor("Dark Red", true, new Color(180, 0, 0, 255), 4),
-                new IRCColor("Red", true, Color.Red, 5),
-                new IRCColor("Purple", true, Color.MediumOrchid, 6),
-                new IRCColor("Orange", true, Color.Orange, 7),
-                new IRCColor("Yellow", true, Color.Yellow, 8),
-                new IRCColor("Lime Green", true, Color.Lime, 9),
-                new IRCColor("Turquoise", true, Color.Turquoise, 10),
-                new IRCColor("Sky Blue", true, Color.LightSkyBlue, 11),
-                new IRCColor("Blue", true, Color.RoyalBlue, 12),
-                new IRCColor("Pink", true, Color.Fuchsia, 13),
-                new IRCColor("Gray", true, Color.LightGray, 14),
+                new IRCColor("浅蓝色", true, Color.LightBlue, 2),
+                new IRCColor("绿色", true, Color.ForestGreen, 3),
+                new IRCColor("深红色", true, new Color(180, 0, 0, 255), 4),
+                new IRCColor("红色", true, Color.Red, 5),
+                new IRCColor("紫色", true, Color.MediumOrchid, 6),
+                new IRCColor("橙色", true, Color.Orange, 7),
+                new IRCColor("黄色", true, Color.Yellow, 8),
+                new IRCColor("浅绿色", true, Color.Lime, 9),
+                new IRCColor("青绿色", true, Color.Turquoise, 10),
+                new IRCColor("天蓝色", true, Color.LightSkyBlue, 11),
+                new IRCColor("蓝色", true, Color.RoyalBlue, 12),
+                new IRCColor("粉红色", true, Color.Fuchsia, 13),
+                new IRCColor("灰色", true, Color.LightGray, 14),
                 new IRCColor("Gray #2", false, Color.Gray, 15)
             };
         }
@@ -180,7 +180,7 @@ namespace DTAClient.Online
 
         private void DoAttemptedServerChanged(string serverName)
         {
-            MainChannel.AddMessage(new ChatMessage("Attempting connection to " + serverName));
+            MainChannel.AddMessage(new ChatMessage("正在尝试连接到 " + serverName));
             AttemptedServerChanged?.Invoke(this, new AttemptedServerEventArgs(serverName));
         }
 
@@ -388,7 +388,7 @@ namespace DTAClient.Online
         {
             ConnectAttemptFailed?.Invoke(this, EventArgs.Empty);
 
-            MainChannel.AddMessage(new ChatMessage(Color.Red, "Connecting to CnCNet failed!"));
+            MainChannel.AddMessage(new ChatMessage(Color.Red, "与CnCNet的连接中断了。"));
         }
 
         public void OnConnected()
@@ -400,7 +400,7 @@ namespace DTAClient.Online
         {
             connected = true;
             Connected?.Invoke(this, EventArgs.Empty);
-            MainChannel.AddMessage(new ChatMessage("Connection to CnCNet established."));
+            MainChannel.AddMessage(new ChatMessage("已成功连接到CnCNet。"));
         }
 
         /// <summary>
@@ -431,7 +431,7 @@ namespace DTAClient.Online
 
             UserList.Clear();
 
-            MainChannel.AddMessage(new ChatMessage(Color.Red, "Connection to CnCNet has been lost."));
+            MainChannel.AddMessage(new ChatMessage(Color.Red, "与CnCNet的连接中断了。"));
             connected = false;
         }
 
@@ -450,7 +450,7 @@ namespace DTAClient.Online
         public void Connect()
         {
             disconnect = false;
-            MainChannel.AddMessage(new ChatMessage("Connecting to CnCNet..."));
+            MainChannel.AddMessage(new ChatMessage("正在与CnCNet建立连接..."));
             connection.ConnectAsync();
         }
 
@@ -477,7 +477,7 @@ namespace DTAClient.Online
                 }
             }
 
-            MainChannel.AddMessage(new ChatMessage("You have disconnected from CnCNet."));
+            MainChannel.AddMessage(new ChatMessage("你中断了与CnCNet的连接。"));
             connected = false;
 
             UserList.Clear();

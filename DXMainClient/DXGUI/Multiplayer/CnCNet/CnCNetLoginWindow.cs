@@ -35,7 +35,7 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
             lblConnectToCnCNet = new XNALabel(WindowManager);
             lblConnectToCnCNet.Name = "lblConnectToCnCNet";
             lblConnectToCnCNet.FontIndex = 1;
-            lblConnectToCnCNet.Text = "CONNECT TO CNCNET";
+            lblConnectToCnCNet.Text = "登录CnCNet平台";
 
             AddChild(lblConnectToCnCNet);
             lblConnectToCnCNet.CenterOnParent();
@@ -53,28 +53,28 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
             lblPlayerName = new XNALabel(WindowManager);
             lblPlayerName.Name = "lblPlayerName";
             lblPlayerName.FontIndex = 1;
-            lblPlayerName.Text = "PLAYER NAME:";
+            lblPlayerName.Text = "玩家昵称：";
             lblPlayerName.ClientRectangle = new Rectangle(12, tbPlayerName.Y + 1,
                 lblPlayerName.Width, lblPlayerName.Height);
 
             chkRememberMe = new XNAClientCheckBox(WindowManager);
             chkRememberMe.Name = "chkRememberMe";
             chkRememberMe.ClientRectangle = new Rectangle(12, tbPlayerName.Bottom + 12, 0, 0);
-            chkRememberMe.Text = "Remember me";
+            chkRememberMe.Text = "记住我";
             chkRememberMe.TextPadding = 7;
             chkRememberMe.CheckedChanged += ChkRememberMe_CheckedChanged;
 
             chkPersistentMode = new XNAClientCheckBox(WindowManager);
             chkPersistentMode.Name = "chkPersistentMode";
             chkPersistentMode.ClientRectangle = new Rectangle(12, chkRememberMe.Bottom + 30, 0, 0);
-            chkPersistentMode.Text = "Stay connected outside of the CnCNet lobby";
+            chkPersistentMode.Text = "离开CnCNet大厅后不中断连接";
             chkPersistentMode.TextPadding = chkRememberMe.TextPadding;
             chkPersistentMode.CheckedChanged += ChkPersistentMode_CheckedChanged;
 
             chkAutoConnect = new XNAClientCheckBox(WindowManager);
             chkAutoConnect.Name = "chkAutoConnect";
             chkAutoConnect.ClientRectangle = new Rectangle(12, chkPersistentMode.Bottom + 30, 0, 0);
-            chkAutoConnect.Text = "Connect automatically on client startup";
+            chkAutoConnect.Text = "客户端启动时自动登录CnCNet";
             chkAutoConnect.TextPadding = chkRememberMe.TextPadding;
             chkAutoConnect.AllowChecking = false;
 

@@ -37,8 +37,8 @@ namespace DTAClient.DXGUI.Generic
 
             lbSaveGameList = new XNAMultiColumnListBox(WindowManager);
             lbSaveGameList.Name = "lbSaveGameList";
-            lbSaveGameList.AddColumn("SAVED GAME NAME", 400);
-            lbSaveGameList.AddColumn("DATE / TIME", 174);
+            lbSaveGameList.AddColumn("游戏存档", 400);
+            lbSaveGameList.AddColumn("保存时间", 174);
             lbSaveGameList.ClientRectangle = new Rectangle(13, 13, 574, 317);
             lbSaveGameList.BackgroundTexture = AssetLoader.CreateTexture(new Color(0, 0, 0, 128), 1, 1);
             lbSaveGameList.PanelBackgroundDrawMode = PanelBackgroundImageDrawMode.STRETCHED;
@@ -47,14 +47,14 @@ namespace DTAClient.DXGUI.Generic
 
             btnLaunch = new XNAClientButton(WindowManager);
             btnLaunch.ClientRectangle = new Rectangle(161, 345, 133, 23);
-            btnLaunch.Text = "Load";
+            btnLaunch.Text = "载入";
             btnLaunch.AllowClick = false;
             btnLaunch.LeftClick += BtnLaunch_LeftClick;
 
             var btnCancel = new XNAClientButton(WindowManager);
             btnCancel.Name = "btnCancel";
             btnCancel.ClientRectangle = new Rectangle(304, btnLaunch.Y, 133, 23);
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = "取消";
             btnCancel.LeftClick += BtnCancel_LeftClick;
 
             AddChild(lbSaveGameList);

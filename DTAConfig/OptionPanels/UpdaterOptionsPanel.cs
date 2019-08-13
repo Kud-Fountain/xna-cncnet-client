@@ -27,8 +27,8 @@ namespace DTAConfig.OptionPanels
             var lblDescription = new XNALabel(WindowManager);
             lblDescription.Name = "lblDescription";
             lblDescription.ClientRectangle = new Rectangle(12, 12, 0, 0);
-            lblDescription.Text = "To change download server priority, select a server from the list and" +
-                Environment.NewLine + "use the Move Up / Down buttons to change its priority.";
+            lblDescription.Text = "若要改变下载服务器优先级，请从列表中选择一个服务器并点击 上移或者下移" +
+                Environment.NewLine + "按钮来改变其优先级。";
 
             lbUpdateServerList = new XNAListBox(WindowManager);
             lbUpdateServerList.Name = "lblUpdateServerList";
@@ -41,7 +41,7 @@ namespace DTAConfig.OptionPanels
             btnMoveUp.Name = "btnMoveUp";
             btnMoveUp.ClientRectangle = new Rectangle(lbUpdateServerList.X,
                 lbUpdateServerList.Bottom + 12, 133, 23);
-            btnMoveUp.Text = "Move Up";
+            btnMoveUp.Text = "上移";
             btnMoveUp.LeftClick += btnMoveUp_LeftClick;
 
             var btnMoveDown = new XNAClientButton(WindowManager);
@@ -49,14 +49,14 @@ namespace DTAConfig.OptionPanels
             btnMoveDown.ClientRectangle = new Rectangle(
                 lbUpdateServerList.Right - 133,
                 btnMoveUp.Y, 133, 23);
-            btnMoveDown.Text = "Move Down";
+            btnMoveDown.Text = "下移";
             btnMoveDown.LeftClick += btnMoveDown_LeftClick;
 
             chkAutoCheck = new XNAClientCheckBox(WindowManager);
             chkAutoCheck.Name = "chkAutoCheck";
             chkAutoCheck.ClientRectangle = new Rectangle(lblDescription.X,
                 btnMoveUp.Bottom + 24, 0, 0);
-            chkAutoCheck.Text = "Check for updates automatically";
+            chkAutoCheck.Text = "自动检查更新";
 
             AddChild(lblDescription);
             AddChild(lbUpdateServerList);

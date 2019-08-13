@@ -124,7 +124,7 @@ namespace ClientGUI
             btnYes.HoverTexture = AssetLoader.LoadTexture("75pxbtn_c.png");
             btnYes.HoverSoundEffect = new EnhancedSoundEffect("button.wav");
             btnYes.Name = "btnYes";
-            btnYes.Text = "Yes";
+            btnYes.Text = "是";
             btnYes.LeftClick += BtnYes_LeftClick;
             btnYes.HotKey = Keys.Y;
 
@@ -140,7 +140,7 @@ namespace ClientGUI
             btnNo.HoverTexture = AssetLoader.LoadTexture("75pxbtn_c.png");
             btnNo.HoverSoundEffect = new EnhancedSoundEffect("button.wav");
             btnNo.Name = "btnNo";
-            btnNo.Text = "No";
+            btnNo.Text = "否";
             btnNo.LeftClick += BtnNo_LeftClick;
             btnNo.HotKey = Keys.N;
 

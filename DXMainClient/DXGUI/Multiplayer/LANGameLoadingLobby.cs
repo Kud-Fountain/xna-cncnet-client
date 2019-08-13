@@ -247,7 +247,7 @@ namespace DTAClient.DXGUI.Multiplayer
 
             sndJoinSound.Play();
 
-            AddNotice(lpInfo.Name + " connected from " + lpInfo.IPAddress);
+            AddNotice(lpInfo.Name + " 从 " + lpInfo.IPAddress + " 连接到房间 ");
             lpInfo.StartReceiveLoop();
 
             CopyPlayerDataToUI();

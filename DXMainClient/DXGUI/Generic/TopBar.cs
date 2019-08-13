@@ -103,19 +103,19 @@ namespace DTAClient.DXGUI.Generic
             btnMainButton = new XNAClientButton(WindowManager);
             btnMainButton.Name = "btnMainButton";
             btnMainButton.ClientRectangle = new Rectangle(12, 9, 160, 23);
-            btnMainButton.Text = "Main Menu (F2)";
+            btnMainButton.Text = "主菜单 (F2)";
             btnMainButton.LeftClick += BtnMainButton_LeftClick;
 
             btnCnCNetLobby = new XNAClientButton(WindowManager);
             btnCnCNetLobby.Name = "btnCnCNetLobby";
             btnCnCNetLobby.ClientRectangle = new Rectangle(184, 9, 160, 23);
-            btnCnCNetLobby.Text = "CnCNet Lobby (F3)";
+            btnCnCNetLobby.Text = "CnCNet大厅 (F3)";
             btnCnCNetLobby.LeftClick += BtnCnCNetLobby_LeftClick;
 
             btnPrivateMessages = new XNAClientButton(WindowManager);
             btnPrivateMessages.Name = "btnPrivateMessages";
             btnPrivateMessages.ClientRectangle = new Rectangle(356, 9, 160, 23);
-            btnPrivateMessages.Text = "Private Messages (F4)";
+            btnPrivateMessages.Text = "私人信息 (F4)";
             btnPrivateMessages.LeftClick += BtnPrivateMessages_LeftClick;
 
             lblDate = new XNALabel(WindowManager);
@@ -138,14 +138,14 @@ namespace DTAClient.DXGUI.Generic
             btnLogout.Name = "btnLogout";
             btnLogout.ClientRectangle = new Rectangle(lblDate.X - 87, 9, 75, 23);
             btnLogout.FontIndex = 1;
-            btnLogout.Text = "Log Out";
+            btnLogout.Text = "注销";
             btnLogout.AllowClick = false;
             btnLogout.LeftClick += BtnLogout_LeftClick;
 
             lblConnectionStatus = new XNALabel(WindowManager);
             lblConnectionStatus.Name = "lblConnectionStatus";
             lblConnectionStatus.FontIndex = 1;
-            lblConnectionStatus.Text = "OFFLINE";
+            lblConnectionStatus.Text = "离线";
 
             AddChild(btnMainButton);
             AddChild(btnCnCNetLobby);
@@ -160,7 +160,7 @@ namespace DTAClient.DXGUI.Generic
                 lblCnCNetStatus = new XNALabel(WindowManager);
                 lblCnCNetStatus.Name = "lblCnCNetStatus";
                 lblCnCNetStatus.FontIndex = 1;
-                lblCnCNetStatus.Text = ClientConfiguration.Instance.LocalGame.ToUpper() + " PLAYERS ONLINE:";
+                lblCnCNetStatus.Text = ClientConfiguration.Instance.LocalGame.ToUpper() + "在线玩家数：";
                 lblCnCNetPlayerCount = new XNALabel(WindowManager);
                 lblCnCNetPlayerCount.Name = "lblCnCNetPlayerCount";
                 lblCnCNetPlayerCount.FontIndex = 1;
@@ -201,29 +201,29 @@ namespace DTAClient.DXGUI.Generic
 
         private void ConnectionManager_ConnectionLost(object sender, Online.EventArguments.ConnectionLostEventArgs e)
         {
-            ConnectionEvent("OFFLINE");
+            ConnectionEvent("离线");
         }
 
         private void ConnectionManager_ConnectAttemptFailed(object sender, EventArgs e)
         {
-            ConnectionEvent("OFFLINE");
+            ConnectionEvent("离线");
         }
 
         private void ConnectionManager_AttemptedServerChanged(object sender, Online.EventArguments.AttemptedServerEventArgs e)
         {
-            ConnectionEvent("CONNECTING...");
+            ConnectionEvent("正在连接...");
             BringDown();
         }
 
         private void ConnectionManager_WelcomeMessageReceived(object sender, Online.EventArguments.ServerMessageEventArgs e)
         {
-            ConnectionEvent("CONNECTED");
+            ConnectionEvent("已连接");
         }
 
         private void ConnectionManager_Disconnected(object sender, EventArgs e)
         {
             btnLogout.AllowClick = false;
-            ConnectionEvent("OFFLINE");
+            ConnectionEvent("离线");
         }
 
         private void ConnectionEvent(string text)

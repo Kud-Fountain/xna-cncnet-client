@@ -35,11 +35,11 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             //InitPlayerOptionDropdowns(128, 98, 90, 48, 55, new Point(6, 24));
             InitPlayerOptionDropdowns();
 
-            btnLeaveGame.Text = "Main Menu";
+            btnLeaveGame.Text = "主菜单";
 
             //MapPreviewBox.EnableContextMenu = true;
 
-            ddPlayerSides[0].AddItem("Spectator", AssetLoader.LoadTexture("spectatoricon.png"));
+            ddPlayerSides[0].AddItem("观察者", AssetLoader.LoadTexture("spectatoricon.png"));
 
             MapPreviewBox.LocalStartingLocationSelected += MapPreviewBox_LocalStartingLocationSelected;
             MapPreviewBox.StartingLocationApplied += MapPreviewBox_StartingLocationApplied;
@@ -412,7 +412,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             AIPlayers.Clear();
 
             Players.Add(new PlayerInfo(ProgramConstants.PLAYERNAME, 0, 0, 0, 0));
-            PlayerInfo aiPlayer = new PlayerInfo("Easy AI", 0, 0, 0, 0);
+            PlayerInfo aiPlayer = new PlayerInfo("简单的AI", 0, 0, 0, 0);
             aiPlayer.IsAI = true;
             aiPlayer.AILevel = 2;
             AIPlayers.Add(aiPlayer);

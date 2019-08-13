@@ -51,7 +51,7 @@ namespace ClientCore.CnCNet5
                     GameBroadcastChannel = "#cncnet-ts-games",
                     InternalName = "ts",
                     RegistryInstallPath = "HKLM\\Software\\Westwood\\Tiberian Sun",
-                    UIName = "Tiberian Sun",
+                    UIName = "泰伯利亚之日",
                     Texture = AssetLoader.TextureFromImage(Resources.tsicon)
                 },
 
@@ -62,7 +62,7 @@ namespace ClientCore.CnCNet5
                     GameBroadcastChannel = "#cncnet-mo-games",
                     InternalName = "mo",
                     RegistryInstallPath = "HKCU\\Software\\MentalOmega",
-                    UIName = "Mental Omega",
+                    UIName = "心灵终结",
                     Texture = AssetLoader.TextureFromImage(Resources.moicon)
                 },
 
@@ -73,7 +73,7 @@ namespace ClientCore.CnCNet5
                     GameBroadcastChannel = "#cncnet-yr-games",
                     InternalName = "yr",
                     RegistryInstallPath = "HKLM\\Software\\Westwood\\Yuri's Revenge",
-                    UIName = "Yuri's Revenge",
+                    UIName = "尤里的复仇",
                     Texture = AssetLoader.TextureFromImage(Resources.yricon)
                 },
 

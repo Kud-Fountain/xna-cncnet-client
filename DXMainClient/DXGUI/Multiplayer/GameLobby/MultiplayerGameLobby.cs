@@ -124,7 +124,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 chkPlayerReady.DisabledCheckedTexture = chkPlayerReady.CheckedTexture;
 
                 ReadyBoxes[i] = chkPlayerReady;
-                ddPlayerSides[i].AddItem("Spectator", AssetLoader.LoadTexture("spectatoricon.png"));
+                ddPlayerSides[i].AddItem("观察者", AssetLoader.LoadTexture("spectatoricon.png"));
             }
 
             ddGameMode.ClientRectangle = new Rectangle(
@@ -154,7 +154,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             tbChatInput = new XNAChatTextBox(WindowManager);
             tbChatInput.Name = "tbChatInput";
-            tbChatInput.Suggestion = "Type here to chat..";
+            tbChatInput.Suggestion = "在这里输入文字来聊天..";
             tbChatInput.ClientRectangle = new Rectangle(lbChatMessages.X, 
                 lbChatMessages.Bottom + 3,
                 lbChatMessages.Width, 21);
@@ -167,7 +167,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             btnLockGame.Name = "btnLockGame";
             btnLockGame.ClientRectangle = new Rectangle(btnLaunchGame.Right + 12,
                 btnLaunchGame.Y, 133, 23);
-            btnLockGame.Text = "Lock Game";
+            btnLockGame.Text = "锁定房间";
             btnLockGame.LeftClick += BtnLockGame_LeftClick;
 
             AddChild(lbChatMessages);
@@ -553,13 +553,13 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             UpdateMapPreviewBoxEnabledStatus();
             //MapPreviewBox.EnableContextMenu = IsHost;
 
-            btnLaunchGame.Text = IsHost ? "Launch Game" : "I'm Ready";
+            btnLaunchGame.Text = IsHost ? "开始游戏" : "我准备好了";
 
             if (IsHost)
             {
                 ShowMapList();
 
-                btnLockGame.Text = "Lock Game";
+                btnLockGame.Text = "锁定房间";
                 btnLockGame.Enabled = true;
                 btnLockGame.Visible = true;
 

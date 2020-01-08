@@ -280,8 +280,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             btnPickRandomMap.ClientRectangle = new Rectangle(btnLaunchGame.Right + 157 , btnLaunchGame.Y, 133, 23);
             btnPickRandomMap.Text = "随机地图";
             btnPickRandomMap.LeftClick += BtnPickRandomMap_LeftClick;
-            btnPickRandomMap.Visible = false;
-            btnPickRandomMap.Enabled = false;
+            btnPickRandomMap.Disable();
 
             AddChild(lblMapName);
             AddChild(lblMapAuthor);
@@ -1507,7 +1506,10 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         protected void ClearReadyStatuses()
         {
             for (int i = 1; i < Players.Count; i++)
-                Players[i].Ready = false;
+            {
+                if (!Players[i].AutoReady)
+                    Players[i].Ready = false;
+            }
         }
 
         /// <summary>

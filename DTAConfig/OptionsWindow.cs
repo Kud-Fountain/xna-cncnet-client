@@ -44,11 +44,8 @@ namespace DTAConfig
             tabControl.AddTab("音频", 92);
             tabControl.AddTab("游戏", 92);
             tabControl.AddTab("CnCNet", 92);
-            if (!ClientConfiguration.Instance.DisableUpdaterOptions)
-            {
-                tabControl.AddTab("更新", 92);
-                if (!ClientConfiguration.Instance.DisableComponentOptions) tabControl.AddTab("Components", 92);
-            }
+            tabControl.AddTab("更新", 92);
+            tabControl.AddTab("Components", 92);
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
 
             var btnCancel = new XNAClientButton(WindowManager);
@@ -76,6 +73,14 @@ namespace DTAConfig
                 new UpdaterOptionsPanel(WindowManager, UserINISettings.Instance),
                 componentsPanel
             };
+
+            if (ClientConfiguration.Instance.ModMode || CUpdater.UPDATEMIRRORS == null || CUpdater.UPDATEMIRRORS.Count < 1)
+            {
+                tabControl.MakeUnselectable(4);
+                tabControl.MakeUnselectable(5);
+            }
+            else if (CUpdater.CustomComponents == null || CUpdater.CustomComponents.Length < 1)
+                tabControl.MakeUnselectable(5);
 
             foreach (var panel in optionsPanels)
             {

@@ -56,12 +56,11 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         protected ChatListBox lbChatMessages;
         protected XNAChatTextBox tbChatInput;
         protected XNAClientButton btnLockGame;
+        protected XNAClientCheckBox chkAutoReady;
 
         protected bool IsHost = false;
 
         protected bool Locked = false;
-
-        protected bool DisplayRandomMapButton = false;
 
         protected EnhancedSoundEffect sndJoinSound;
         protected EnhancedSoundEffect sndLeaveSound;
@@ -172,16 +171,23 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             btnLockGame.Text = "锁定房间";
             btnLockGame.LeftClick += BtnLockGame_LeftClick;
 
+            chkAutoReady = new XNAClientCheckBox(WindowManager);
+            chkAutoReady.Name = "chkAutoReady";
+            chkAutoReady.ClientRectangle = new Rectangle(btnLaunchGame.Right + 12,
+                btnLaunchGame.Y + 2, 133, 23);
+            chkAutoReady.Text = "Auto-Ready";
+            chkAutoReady.CheckedChanged += ChkAutoReady_CheckedChanged;
+            chkAutoReady.Disable();
+
             AddChild(lbChatMessages);
             AddChild(tbChatInput);
             AddChild(btnLockGame);
+            AddChild(chkAutoReady);
 
             MapPreviewBox.LocalStartingLocationSelected += MapPreviewBox_LocalStartingLocationSelected;
             MapPreviewBox.StartingLocationApplied += MapPreviewBox_StartingLocationApplied;
 
             InitializeWindow();
-
-            DisplayRandomMapButton = btnPickRandomMap.Enabled && btnPickRandomMap.Visible;
 
             sndJoinSound = new EnhancedSoundEffect("joingame.wav");
             sndLeaveSound = new EnhancedSoundEffect("leavegame.wav");
@@ -345,6 +351,20 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             SendChatMessage(tbChatInput.Text);
             tbChatInput.Text = string.Empty;
+        }
+
+        private void ChkAutoReady_CheckedChanged(object sender, EventArgs e)
+        {
+            btnLaunchGame.Enabled = !chkAutoReady.Checked;
+            RequestReadyStatus();
+        }
+
+        protected void ResetAutoReadyCheckbox()
+        {
+            chkAutoReady.CheckedChanged -= ChkAutoReady_CheckedChanged;
+            chkAutoReady.Checked = false;
+            chkAutoReady.CheckedChanged += ChkAutoReady_CheckedChanged;
+            btnLaunchGame.Enabled = true;
         }
 
         private void SetFrameSendRate(string value)
@@ -579,6 +599,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 btnLockGame.Text = "锁定房间";
                 btnLockGame.Enabled = true;
                 btnLockGame.Visible = true;
+                chkAutoReady.Disable();
 
                 foreach (GameLobbyDropDown dd in DropDowns)
                 {
@@ -600,6 +621,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
                 btnLockGame.Enabled = false;
                 btnLockGame.Visible = false;
+                chkAutoReady.GetAttributes(ThemeIni);
 
                 foreach (GameLobbyDropDown dd in DropDowns)
                     dd.InputEnabled = false;
@@ -612,6 +634,8 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             lbChatMessages.Clear();
             lbChatMessages.TopIndex = 0;
+
+            lbChatMessages.AddItem("Type / to view a list of available chat commands.", Color.Silver, true);
 
             if (SavedGameManager.GetSaveGameCount() > 0)
             {
@@ -638,8 +662,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             lblGameModeSelect.Disable();
             lbMapList.Disable();
             tbMapSearch.Disable();
-            if (DisplayRandomMapButton)
-                btnPickRandomMap.Disable();
+            btnPickRandomMap.Disable();
 
             lbChatMessages.GetAttributes(ThemeIni);
             tbChatInput.GetAttributes(ThemeIni);
@@ -667,8 +690,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             lblGameModeSelect.Enable();
             lbMapList.Enable();
             tbMapSearch.Enable();
-            if (DisplayRandomMapButton)
-                btnPickRandomMap.Enable();
+            btnPickRandomMap.GetAttributes(ThemeIni);
 
             lbChatMessages.GetAttributes(ThemeIni);
             tbChatInput.GetAttributes(ThemeIni);

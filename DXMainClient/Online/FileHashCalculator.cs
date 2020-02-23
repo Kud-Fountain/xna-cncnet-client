@@ -42,7 +42,7 @@ namespace DTAClient.Online
             "INI\\Game Options\\No Dog Engi Eat.ini",
             "INI\\Game Options\\No Spawn Previews.ini",
             "INI\\Game Options\\RA2 Classic Mode.ini",
-            "INI\\Map Code\\GlobalCode.ini"
+            "INI\\Map Code\\GlobalCode.ini",
 #else
             "spawner.xdp",
             "rules.ini",
@@ -79,7 +79,7 @@ namespace DTAClient.Online
                 ClientXNAHash = Utilities.CalculateSHA1ForFile(ProgramConstants.GetBaseResourcePath() + "clientxna.exe"),
                 ClientOGLHash = Utilities.CalculateSHA1ForFile(ProgramConstants.GetBaseResourcePath() + "clientogl.exe"),
                 MainExeHash = Utilities.CalculateSHA1ForFile(ProgramConstants.GamePath + ClientConfiguration.Instance.GetGameExecutableName()),
-                LauncherExeHash = Utilities.CalculateSHA1ForFile(ProgramConstants.GamePath + ClientConfiguration.Instance.GetGameLauncherExecutableName),
+                LauncherExeHash = Utilities.CalculateSHA1ForFile(ProgramConstants.GamePath + ClientConfiguration.Instance.GameLauncherExecutableName),
                 MPMapsHash = Utilities.CalculateSHA1ForFile(ProgramConstants.GamePath + ClientConfiguration.Instance.MPMapsIniPath),
                 INIHashes = string.Empty
             };

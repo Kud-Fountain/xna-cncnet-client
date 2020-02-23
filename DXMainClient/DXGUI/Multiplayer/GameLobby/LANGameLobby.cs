@@ -975,7 +975,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (frameSendRate != FrameSendRate)
             {
                 FrameSendRate = frameSendRate;
-                AddNotice("The game host has changed FrameSendRate (order lag) to " + frameSendRate);
+                AddNotice("房主变更 FrameSendRate (order lag) 的值为 " + frameSendRate);
             }
 
             bool removeStartingLocations = Convert.ToBoolean(Conversions.IntFromString(
@@ -992,9 +992,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 if (chkBox.Checked != oldValue)
                 {
                     if (chkBox.Checked)
-                        AddNotice("The game host has enabled " + chkBox.Text);
+                        AddNotice("房主启用了 " + chkBox.Text);
                     else
-                        AddNotice("The game host has disabled " + chkBox.Text);
+                        AddNotice("房主禁用了 " + chkBox.Text);
                 }
             }
 

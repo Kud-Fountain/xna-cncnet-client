@@ -85,9 +85,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             MapSharer.MapUploadComplete += MapSharer_MapUploadComplete;
 
             AddChatBoxCommand(new ChatBoxCommand("TUNNELINFO",
-                "View tunnel server information", false, PrintTunnelServerInformation));
+                "查看隧道服务器的信息", false, PrintTunnelServerInformation));
             AddChatBoxCommand(new ChatBoxCommand("CHANGETUNNEL",
-                "Change the used CnCNet tunnel server (game host only)",
+                "变更CnCNet隧道服务器（仅房主可用）",
                 true, (s) => ShowTunnelSelectionWindow("Select tunnel server:")));
         }
 
@@ -239,8 +239,8 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void PrintTunnelServerInformation(string s)
         {
-            AddNotice($"Current tunnel server: {tunnel.Name} ({tunnel.Country}) " +
-                $"(Players: {tunnel.Clients}/{tunnel.MaxClients}) (Official: {tunnel.Official})");
+            AddNotice($"当前隧道服务器为：{tunnel.Name}（{tunnel.Country}）" +
+                $"（玩家数：{tunnel.Clients}/{tunnel.MaxClients}）（是否为官方服务器：{tunnel.Official}）");
         }
 
         private void ShowTunnelSelectionWindow(string description)
@@ -916,21 +916,21 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (frameSendRate != FrameSendRate)
             {
                 FrameSendRate = frameSendRate;
-                AddNotice("The game host has changed FrameSendRate (order lag) to " + frameSendRate);
+                AddNotice("房主变更 FrameSendRate (order lag) 的值为 " + frameSendRate);
             }
 
             int maxAhead = Conversions.IntFromString(parts[partIndex + 4], MaxAhead);
             if (maxAhead != MaxAhead)
             {
                 MaxAhead = maxAhead;
-                AddNotice("The game host has changed MaxAhead to " + maxAhead);
+                AddNotice("房主变更 MaxAhead 的值为 " + maxAhead);
             }
 
             int protocolVersion = Conversions.IntFromString(parts[partIndex + 5], ProtocolVersion);
             if (protocolVersion != ProtocolVersion)
             {
                 ProtocolVersion = protocolVersion;
-                AddNotice("The game host has changed ProtocolVersion to " + protocolVersion);
+                AddNotice("房主变更 ProtocolVersion 的值为 " + protocolVersion);
             }
 
             GameMode currentGameMode = GameMode;
@@ -1412,7 +1412,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (user != null)
             {
-                AddNotice("Banning and kicking " + pInfo.Name + " from the game...");
+                AddNotice("封禁并踢出 " + pInfo.Name);
                 channel.SendBanMessage(user.Hostname, 8);
                 channel.SendKickMessage(user.Name, 8);
             }
@@ -1420,7 +1420,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void HandleCheatDetectedMessage(string sender)
         {
-            AddNotice(sender + " has modified game files during the client session. They are likely attempting to cheat!", Color.Red);
+            AddNotice(sender + " 拥有不同的客户端文件。他有可能正在作弊！", Color.Red);
         }
 
         private void HandleTunnelServerChangeMessage(string sender, string tunnelAddress)
@@ -1431,9 +1431,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             CnCNetTunnel tunnel = tunnelHandler.Tunnels.Find(t => t.Address == tunnelAddress);
             if (tunnel == null)
             {
-                AddNotice("The game host has selected an invalid tunnel server! " +
-                    "The game host needs to change the server or you will be unable " +
-                    "to participate in the match.",
+                AddNotice("房主选择了一个不可用的隧道服务器！" +
+                    "房主需要变更服务器否则你将无法" +
+                    "加入比赛。",
                     Color.Yellow);
                 btnLaunchGame.AllowClick = false;
                 return;
@@ -1450,7 +1450,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         private void HandleTunnelServerChange(CnCNetTunnel tunnel)
         {
             this.tunnel = tunnel;
-            AddNotice($"The game host has changed the tunnel server to: " +
+            AddNotice($"房主变更隧道服务器为：" +
                 $"{tunnel.Name} (Your ping: {tunnel.PingInMs} ms)");
         }
 

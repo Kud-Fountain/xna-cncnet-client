@@ -33,22 +33,22 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             chatBoxCommands = new List<ChatBoxCommand>
             {
-                new ChatBoxCommand("HIDEMAPS", "Hide map list (game host only)", true,
+                new ChatBoxCommand("HIDEMAPS", "隐藏地图列表（仅房主可用）", true,
                     s => HideMapList()),
-                new ChatBoxCommand("SHOWMAPS", "Show map list (game host only)", true,
+                new ChatBoxCommand("SHOWMAPS", "显示地图列表（仅房主可用）", true,
                     s => ShowMapList()),
-                new ChatBoxCommand("FRAMESENDRATE", "Change order lag / FrameSendRate (default 7) (game host only)", true,
+                new ChatBoxCommand("FRAMESENDRATE", "变更 order lag / FrameSendRate（默认值：7）（仅房主可用）", true,
                     s => SetFrameSendRate(s)),
-                new ChatBoxCommand("MAXAHEAD", "Change MaxAhead (default 0) (game host only)", true,
+                new ChatBoxCommand("MAXAHEAD", "变更 MaxAhead（默认值：0）（仅房主可用）", true,
                     s => SetMaxAhead(s)),
-                new ChatBoxCommand("PROTOCOLVERSION", "Change ProtocolVersion (default 2) (game host only)", true,
+                new ChatBoxCommand("PROTOCOLVERSION", "变更 ProtocolVersion（默认值：2）（仅房主可用）", true,
                     s => SetProtocolVersion(s)),
-                new ChatBoxCommand("LOADMAP", "Load a custom map with given filename from \\Maps\\Custom\\ folder.", true, LoadCustomMap),
-                new ChatBoxCommand("RANDOMSTARTS", "Enables completely random starting locations (Tiberian Sun based games only).", true,
+                new ChatBoxCommand("LOADMAP", "从 \\Maps\\Custom\\ 目录中读取一张指定地图", true, LoadCustomMap),
+                new ChatBoxCommand("RANDOMSTARTS", "启用随机出生地点（仅泰伯利亚之日系列游戏可用）", true,
                     s => SetStartingLocationClearance(s)),
-                new ChatBoxCommand("ROLL", "Roll dice, for example /roll 3d6", false, RollDiceCommand),
-                new ChatBoxCommand("SAVEOPTIONS", "Save game option preset so it can be loaded later", false, HandleGameOptionPresetSaveCommand),
-                new ChatBoxCommand("LOADOPTIONS", "Load game option preset", true, HandleGameOptionPresetLoadCommand)
+                new ChatBoxCommand("ROLL", "投掷骰子，如 /roll 3d6", false, RollDiceCommand),
+                new ChatBoxCommand("SAVEOPTIONS", "储存设置预设以用于稍后读取", false, HandleGameOptionPresetSaveCommand),
+                new ChatBoxCommand("LOADOPTIONS", "读取设置预设", true, HandleGameOptionPresetLoadCommand)
             };
         }
 
@@ -341,7 +341,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                     {
                         if (!IsHost && chatBoxCommand.HostOnly)
                         {
-                            AddNotice(string.Format("/{0} is for game hosts only.", chatBoxCommand.Command));
+                            AddNotice(string.Format("/{0} 仅房主可用。", chatBoxCommand.Command));
                             return;
                         }
 
@@ -350,14 +350,14 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                     }
                 }
 
-                StringBuilder sb = new StringBuilder("To use a command, start your message with /<command>. Possible chat box commands: ");
+                StringBuilder sb = new StringBuilder("要使用一个指令，请在聊天框中输入 /<指令>。可能可用的聊天框指令：");
                 foreach (var chatBoxCommand in chatBoxCommands)
                 {
                     sb.Append(Environment.NewLine);
                     sb.Append(Environment.NewLine);
                     sb.Append($"{chatBoxCommand.Command}: {chatBoxCommand.Description}");
                 }
-                XNAMessageBox.Show(WindowManager, "Chat Box Command Help", sb.ToString());
+                XNAMessageBox.Show(WindowManager, "聊天框指令帮助", sb.ToString());
                 return;
             }
 
@@ -385,12 +385,12 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (!success)
             {
-                AddNotice("Command syntax: /FrameSendRate <number>");
+                AddNotice("命令格式：/FrameSendRate <数字>");
                 return;
             }
 
             FrameSendRate = intValue;
-            AddNotice("FrameSendRate has been changed to " + intValue);
+            AddNotice("FrameSendRate 已被变更为 " + intValue);
 
             OnGameOptionChanged();
             ClearReadyStatuses();
@@ -402,12 +402,12 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (!success)
             {
-                AddNotice("Command syntax: /MaxAhead <number>");
+                AddNotice("命令格式：/MaxAhead <数字>");
                 return;
             }
 
             MaxAhead = intValue;
-            AddNotice("MaxAhead has been changed to " + intValue);
+            AddNotice("MaxAhead 已被变更为 " + intValue);
 
             OnGameOptionChanged();
             ClearReadyStatuses();
@@ -419,18 +419,18 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (!success)
             {
-                AddNotice("Command syntax: /ProtocolVersion <number>.");
+                AddNotice("命令格式：/ProtocolVersion <数字>");
                 return;
             }
 
             if (!(intValue == 0 || intValue == 2))
             {
-                AddNotice("ProtocolVersion only allows values 0 and 2.");
+                AddNotice("ProtocolVersion 只允许在0到2之间变更。");
                 return;
             }
 
             ProtocolVersion = intValue;
-            AddNotice("ProtocolVersion has been changed to " + intValue);
+            AddNotice("ProtocolVersion 已被变更为 " + intValue);
 
             OnGameOptionChanged();
             ClearReadyStatuses();
@@ -647,12 +647,12 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             lbChatMessages.Clear();
             lbChatMessages.TopIndex = 0;
 
-            lbChatMessages.AddItem("Type / to view a list of available chat commands.", Color.Silver, true);
+            lbChatMessages.AddItem("输入 / 来查看可用的聊天指令。", Color.Silver, true);
 
             if (SavedGameManager.GetSaveGameCount() > 0)
             {
-                lbChatMessages.AddItem("Multiplayer saved games from a previous match have been detected. " +
-                    "The saved games of the previous match will be deleted if you create new saves during this match.",
+                lbChatMessages.AddItem("已检测到上一场多人游戏的存档。" +
+                    "如果在这一场游戏中进行新的存档，则上一场游戏的存档会被删除。",
                     Color.Yellow, true);
             }
         }

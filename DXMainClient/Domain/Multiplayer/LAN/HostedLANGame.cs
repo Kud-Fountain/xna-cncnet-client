@@ -48,7 +48,7 @@ namespace DTAClient.Domain.LAN
             IsLoadedGame = Conversions.IntFromString(parameters[8], 0) > 0;
             LastRefreshTime = DateTime.Now;
             TimeWithoutRefresh = TimeSpan.Zero;
-            RoomName = HostName + "的游戏";
+            RoomName = HostName + "'s Game";
 
             return true;
         }

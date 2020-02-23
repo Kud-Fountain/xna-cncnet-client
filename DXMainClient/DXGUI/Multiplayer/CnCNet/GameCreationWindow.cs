@@ -73,7 +73,7 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
             tbGameName = new XNATextBox(WindowManager);
             tbGameName.MaximumTextLength = 23;
             tbGameName.ClientRectangle = new Rectangle(Width - 162, 12, 150, 21);
-            tbGameName.Text = ProgramConstants.PLAYERNAME + "的游戏";
+            tbGameName.Text = ProgramConstants.PLAYERNAME + "'s Game";
 
             lblRoomName = new XNALabel(WindowManager);
             lblRoomName.ClientRectangle = new Rectangle(12, tbGameName.Y + 1, 0, 0);
@@ -151,7 +151,7 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
 
         private void Instance_SettingsSaved(object sender, EventArgs e)
         {
-            tbGameName.Text = UserINISettings.Instance.PlayerName.Value + "的游戏";
+            tbGameName.Text = UserINISettings.Instance.PlayerName.Value + "'s Game";
         }
 
         private void BtnCancel_LeftClick(object sender, EventArgs e)

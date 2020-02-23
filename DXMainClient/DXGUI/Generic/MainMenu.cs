@@ -524,7 +524,7 @@ namespace DTAClient.DXGUI.Generic
             innerPanel.Hide();
             innerPanel.UpdateWindow.ForceUpdate();
             innerPanel.Show(innerPanel.UpdateWindow);
-            lblUpdateStatus.Text = "Force updating...";
+            lblUpdateStatus.Text = "强制更新中...";
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace DTAClient.DXGUI.Generic
         {
             CUpdater.CheckForUpdates();
             lblUpdateStatus.Enabled = false;
-            lblUpdateStatus.Text = "Checking for updates...";
+            lblUpdateStatus.Text = "正在检查更新...";
             try
             {
                 StatisticsSender.Instance.SendUpdate();
@@ -560,19 +560,19 @@ namespace DTAClient.DXGUI.Generic
 
             if (CUpdater.DTAVersionState == VersionState.UPTODATE)
             {
-                lblUpdateStatus.Text = MainClientConstants.GAME_NAME_SHORT + " is up to date.";
+                lblUpdateStatus.Text = MainClientConstants.GAME_NAME_SHORT + " 已经是最新版本了。";
                 lblUpdateStatus.Enabled = true;
                 lblUpdateStatus.DrawUnderline = false;
             }
             else if (CUpdater.DTAVersionState == VersionState.OUTDATED)
             {
-                lblUpdateStatus.Text = "An update is available.";
+                lblUpdateStatus.Text = "有更新可用。";
                 innerPanel.UpdateQueryWindow.SetInfo(CUpdater.ServerGameVersion, CUpdater.UpdateSizeInKb);
                 innerPanel.Show(innerPanel.UpdateQueryWindow);
             }
             else if (CUpdater.DTAVersionState == VersionState.UNKNOWN)
             {
-                lblUpdateStatus.Text = "Checking for updates failed! Click to retry.";
+                lblUpdateStatus.Text = "检查更新失败！点击重试。";
                 lblUpdateStatus.Enabled = true;
                 lblUpdateStatus.DrawUnderline = true;
             }

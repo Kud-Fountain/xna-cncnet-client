@@ -68,6 +68,12 @@ namespace DTAConfig.OptionPanels
             btnForceUpdate.Text = "Force Update";
             btnForceUpdate.LeftClick += BtnForceUpdate_LeftClick;
 
+            btnForceUpdate = new XNAClientButton(WindowManager);
+            btnForceUpdate.Name = "btnForceUpdate";
+            btnForceUpdate.ClientRectangle = new Rectangle(btnMoveDown.X, btnMoveDown.Bottom + 24, 133, 23);
+            btnForceUpdate.Text = "Force Update";
+            btnForceUpdate.LeftClick += BtnForceUpdate_LeftClick;
+
             AddChild(lblDescription);
             AddChild(lbUpdateServerList);
             AddChild(btnMoveUp);

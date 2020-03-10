@@ -434,6 +434,15 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
                 else
                     gameLobby.Clear();
             }
+
+            isJoiningGame = false;
+            if (gameOfLastJoinAttempt != null)
+            {
+                if (gameOfLastJoinAttempt.IsLoadedGame)
+                    gameLoadingLobby.Clear();
+                else
+                    gameLobby.Clear();
+            }
         }
 
         private void SharedUILogic_GameProcessStarted()

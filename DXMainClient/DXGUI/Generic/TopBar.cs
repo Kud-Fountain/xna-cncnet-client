@@ -122,13 +122,13 @@ namespace DTAClient.DXGUI.Generic
             btnCnCNetLobby = new XNAClientButton(WindowManager);
             btnCnCNetLobby.Name = "btnCnCNetLobby";
             btnCnCNetLobby.ClientRectangle = new Rectangle(184, 9, 160, 23);
-            btnCnCNetLobby.Text = "CnCNet大厅（F3）";
+            btnCnCNetLobby.Text = "CnCNet Lobby (F3)";
             btnCnCNetLobby.LeftClick += BtnCnCNetLobby_LeftClick;
 
             btnPrivateMessages = new XNAClientButton(WindowManager);
             btnPrivateMessages.Name = "btnPrivateMessages";
             btnPrivateMessages.ClientRectangle = new Rectangle(356, 9, 160, 23);
-            btnPrivateMessages.Text = "私人信息（F4）";
+            btnPrivateMessages.Text = "Private Messages (F4)";
             btnPrivateMessages.LeftClick += BtnPrivateMessages_LeftClick;
 
             lblDate = new XNALabel(WindowManager);
@@ -151,20 +151,20 @@ namespace DTAClient.DXGUI.Generic
             btnLogout.Name = "btnLogout";
             btnLogout.ClientRectangle = new Rectangle(lblDate.X - 87, 9, 75, 23);
             btnLogout.FontIndex = 1;
-            btnLogout.Text = "注销";
+            btnLogout.Text = "Log Out";
             btnLogout.AllowClick = false;
             btnLogout.LeftClick += BtnLogout_LeftClick;
 
             btnOptions = new XNAClientButton(WindowManager);
             btnOptions.Name = "btnOptions";
             btnOptions.ClientRectangle = new Rectangle(btnLogout.X - 122, 9, 110, 23);
-            btnOptions.Text = "设置（F12）";
+            btnOptions.Text = "Options (F12)";
             btnOptions.LeftClick += BtnOptions_LeftClick;
 
             lblConnectionStatus = new XNALabel(WindowManager);
             lblConnectionStatus.Name = "lblConnectionStatus";
             lblConnectionStatus.FontIndex = 1;
-            lblConnectionStatus.Text = "离线";
+            lblConnectionStatus.Text = "OFFLINE";
 
             AddChild(btnMainButton);
             AddChild(btnCnCNetLobby);
@@ -220,24 +220,24 @@ namespace DTAClient.DXGUI.Generic
         }
 
         private void ConnectionManager_ConnectionLost(object sender, Online.EventArguments.ConnectionLostEventArgs e)
-            => ConnectionEvent("离线");
+            => ConnectionEvent("OFFLINE");
 
         private void ConnectionManager_ConnectAttemptFailed(object sender, EventArgs e)
-            => ConnectionEvent("离线");
+            => ConnectionEvent("OFFLINE");
 
         private void ConnectionManager_AttemptedServerChanged(object sender, Online.EventArguments.AttemptedServerEventArgs e)
         {
-            ConnectionEvent("正在连接...");
+            ConnectionEvent("CONNECTING...");
             BringDown();
         }
 
         private void ConnectionManager_WelcomeMessageReceived(object sender, Online.EventArguments.ServerMessageEventArgs e)
-            => ConnectionEvent("已连接");
+            => ConnectionEvent("CONNECTED");
 
         private void ConnectionManager_Disconnected(object sender, EventArgs e)
         {
             btnLogout.AllowClick = false;
-            ConnectionEvent("离线");
+            ConnectionEvent("OFFLINE");
         }
 
         private void ConnectionEvent(string text)
@@ -272,6 +272,10 @@ namespace DTAClient.DXGUI.Generic
             primarySwitches[primarySwitches.Count - 1].SwitchOff();
             cncnetLobbySwitch.SwitchOn();
             privateMessageSwitch.SwitchOff();
+
+            // HACK warning
+            // TODO: add a way for DarkeningPanel to skip transitions
+            ((DarkeningPanel)((XNAControl)cncnetLobbySwitch).Parent).Alpha = 1.0f;
         }
 
         private void BtnMainButton_LeftClick(object sender, EventArgs e)
@@ -280,6 +284,11 @@ namespace DTAClient.DXGUI.Generic
             cncnetLobbySwitch.SwitchOff();
             privateMessageSwitch.SwitchOff();
             primarySwitches[primarySwitches.Count - 1].SwitchOn();
+
+            // HACK warning
+            // TODO: add a way for DarkeningPanel to skip transitions
+            if (((XNAControl)primarySwitches[primarySwitches.Count - 1]).Parent is DarkeningPanel darkeningPanel)
+                darkeningPanel.Alpha = 1.0f;
         }
 
         private void BtnPrivateMessages_LeftClick(object sender, EventArgs e)
@@ -348,7 +357,9 @@ namespace DTAClient.DXGUI.Generic
             this.lanMode = lanMode;
             SetSwitchButtonsClickable(!lanMode);
             if (lanMode)
-                ConnectionEvent("局域网");
+                ConnectionEvent("LAN MODE");
+            else
+                ConnectionEvent("OFFLINE");
         }
 
         public override void Update(GameTime gameTime)

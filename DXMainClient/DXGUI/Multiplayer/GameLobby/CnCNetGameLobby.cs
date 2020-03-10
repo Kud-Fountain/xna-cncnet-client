@@ -85,9 +85,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             MapSharer.MapUploadComplete += MapSharer_MapUploadComplete;
 
             AddChatBoxCommand(new ChatBoxCommand("TUNNELINFO",
-                "查看隧道服务器的信息", false, PrintTunnelServerInformation));
+                "View tunnel server information", false, PrintTunnelServerInformation));
             AddChatBoxCommand(new ChatBoxCommand("CHANGETUNNEL",
-                "变更CnCNet隧道服务器（仅房主可用）",
+                "Change the used CnCNet tunnel server (game host only)",
                 true, (s) => ShowTunnelSelectionWindow("Select tunnel server:")));
         }
 
@@ -96,6 +96,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         private TunnelHandler tunnelHandler;
         private CnCNetTunnel tunnel;
         private TunnelSelectionWindow tunnelSelectionWindow;
+        private XNAClientButton btnChangeTunnel;
 
         private Channel channel;
         private CnCNetManager connectionManager;
@@ -122,6 +123,8 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private List<string> hostUploadedMaps = new List<string>();
 
+        private MapSharingConfirmationPanel mapSharingConfirmationPanel;
+
         /// <summary>
         /// The SHA1 of the latest selected map.
         /// Used for map sharing.
@@ -138,6 +141,14 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             base.Initialize();
 
+            btnChangeTunnel = new XNAClientButton(WindowManager);
+            btnChangeTunnel.Name = "btnChangeTunnel";
+            btnChangeTunnel.ClientRectangle = new Rectangle(btnLeaveGame.Right - btnLeaveGame.Width - 145,
+                btnLeaveGame.Y, 133, 23);
+            btnChangeTunnel.Text = "Change Tunnel";
+            btnChangeTunnel.LeftClick += BtnChangeTunnel_LeftClick;
+            AddChild(btnChangeTunnel);
+
             gameBroadcastTimer = new XNATimerControl(WindowManager);
             gameBroadcastTimer.AutoReset = true;
             gameBroadcastTimer.Interval = TimeSpan.FromSeconds(GAME_BROADCAST_INTERVAL);
@@ -152,13 +163,18 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             tunnelSelectionWindow.CenterOnParent();
             tunnelSelectionWindow.Disable();
 
+            mapSharingConfirmationPanel = new MapSharingConfirmationPanel(WindowManager);
+            MapPreviewBox.AddChild(mapSharingConfirmationPanel);
+            mapSharingConfirmationPanel.MapDownloadConfirmed += MapSharingConfirmationPanel_MapDownloadConfirmed;
+
             WindowManager.AddAndInitializeControl(gameBroadcastTimer);
+
+            PostInitialize();
         }
 
-        private void GameBroadcastTimer_TimeElapsed(object sender, EventArgs e)
-        {
-            BroadcastGame();
-        }
+        private void BtnChangeTunnel_LeftClick(object sender, EventArgs e) => ShowTunnelSelectionWindow("Select tunnel server:");
+
+        private void GameBroadcastTimer_TimeElapsed(object sender, EventArgs e) => BroadcastGame();
 
         public void SetUp(Channel channel, bool isHost, int playerLimit, 
             CnCNetTunnel tunnel, string hostName, bool isCustomPassword)
@@ -180,11 +196,13 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             {
                 RandomSeed = new Random().Next();
                 RefreshMapSelectionUI();
+                btnChangeTunnel.Enable();
             }
             else
             {
                 channel.ChannelModesChanged += Channel_ChannelModesChanged;
                 AIPlayers.Clear();
+                btnChangeTunnel.Disable();
             }
 
             this.tunnel = tunnel;
@@ -225,9 +243,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 channel.SendCTCPMessage("TNLPNG " + tunnel.PingInMs, QueuedMessageType.SYSTEM_MESSAGE, 10);
 
                 if (tunnel.PingInMs < 0)
-                    AddNotice(ProgramConstants.PLAYERNAME + " - 连接到服务器的延迟未知。");
+                    AddNotice(ProgramConstants.PLAYERNAME + " - unknown ping to tunnel server.");
                 else
-                    AddNotice(ProgramConstants.PLAYERNAME + " - 连接到服务器的延迟为： " + tunnel.PingInMs + "毫秒");
+                    AddNotice(ProgramConstants.PLAYERNAME + " - ping to tunnel server: " + tunnel.PingInMs + " ms");
             }
 
             TopBar.AddPrimarySwitchable(this);
@@ -239,8 +257,8 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void PrintTunnelServerInformation(string s)
         {
-            AddNotice($"当前隧道服务器为：{tunnel.Name}（{tunnel.Country}）" +
-                $"（玩家数：{tunnel.Clients}/{tunnel.MaxClients}）（是否为官方服务器：{tunnel.Official}）");
+            AddNotice($"Current tunnel server: {tunnel.Name} ({tunnel.Country}) " +
+                $"(Players: {tunnel.Clients}/{tunnel.MaxClients}) (Official: {tunnel.Official})");
         }
 
         private void ShowTunnelSelectionWindow(string description)
@@ -301,15 +319,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             ResetDiscordPresence();
         }
 
-        private void ConnectionManager_Disconnected(object sender, EventArgs e)
-        {
-            HandleConnectionLoss();
-        }
+        private void ConnectionManager_Disconnected(object sender, EventArgs e) => HandleConnectionLoss();
 
-        private void ConnectionManager_ConnectionLost(object sender, ConnectionLostEventArgs e)
-        {
-            HandleConnectionLoss();
-        }
+        private void ConnectionManager_ConnectionLost(object sender, ConnectionLostEventArgs e) => HandleConnectionLoss();
 
         private void HandleConnectionLoss()
         {
@@ -356,7 +368,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.UserName == hostName)
             {
                 connectionManager.MainChannel.AddMessage(new ChatMessage(
-                    ERROR_MESSAGE_COLOR, "房主丢弃了该场游戏。"));
+                    ERROR_MESSAGE_COLOR, "The game host abandoned the game."));
                 BtnLeaveGame_LeftClick(this, EventArgs.Empty);
             }
             else
@@ -370,7 +382,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.UserName == hostName)
             {
                 connectionManager.MainChannel.AddMessage(new ChatMessage(
-                    ERROR_MESSAGE_COLOR, "房主丢弃了该场游戏。"));
+                    ERROR_MESSAGE_COLOR, "The game host abandoned the game."));
                 BtnLeaveGame_LeftClick(this, EventArgs.Empty);
             }
             else
@@ -382,7 +394,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.UserName == ProgramConstants.PLAYERNAME)
             {
                 connectionManager.MainChannel.AddMessage(new ChatMessage(
-                    ERROR_MESSAGE_COLOR, "你被踢出了房间！"));
+                    ERROR_MESSAGE_COLOR, "You were kicked from the game!"));
                 Clear();
                 this.Visible = false;
                 this.Enabled = false;
@@ -407,7 +419,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 if (channel.Users.FindIndex(u => u.IRCUser.Name == hostName) < 0)
                 {
                     connectionManager.MainChannel.AddMessage(new ChatMessage(
-                        ERROR_MESSAGE_COLOR, "房主丢弃了该场游戏。"));
+                        ERROR_MESSAGE_COLOR, "The game host has abandoned the game."));
                     BtnLeaveGame_LeftClick(this, EventArgs.Empty);
                 }
             }
@@ -449,7 +461,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (Players.Count >= playerLimit)
             {
-                AddNotice("玩家数量已达到上限； 游戏房间已被锁定。");
+                AddNotice("Player limit reached; the game room has been locked.");
                 LockGame();
             }
         }
@@ -482,12 +494,12 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (e.ModeString == "+i")
             {
                 if (Players.Count >= playerLimit)
-                    AddNotice("玩家数量已达到上限； 游戏房间已被锁定。");
+                    AddNotice("Player limit reached; the game room has been locked.");
                 else
-                    AddNotice("房主解锁了游戏房间。");
+                    AddNotice("The game host has locked the game room.");
             }
             else if (e.ModeString == "-i")
-                AddNotice("游戏房间已解锁。");
+                AddNotice("The game room has been unlocked.");
         }
 
         private void Channel_CTCPReceived(object sender, ChannelCTCPEventArgs e)
@@ -528,7 +540,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             if (Players.Count > 1)
             {
-                AddNotice("正在连接服务器...");
+                AddNotice("Contacting tunnel server..");
 
                 List<int> playerPorts = tunnel.GetPlayerPortInfo(Players.Count);
 
@@ -598,10 +610,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 channel.SendCTCPMessage("R 1", QueuedMessageType.GAME_PLAYERS_READY_STATUS_MESSAGE, 5);
         }
 
-        protected override void AddNotice(string message, Color color)
-        {
-            channel.AddMessage(new ChatMessage(color, message));
-        }
+        protected override void AddNotice(string message, Color color) => channel.AddMessage(new ChatMessage(color, message));
 
         /// <summary>
         /// Handles player option requests received from non-host players.
@@ -916,21 +925,21 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (frameSendRate != FrameSendRate)
             {
                 FrameSendRate = frameSendRate;
-                AddNotice("房主变更 FrameSendRate (order lag) 的值为 " + frameSendRate);
+                AddNotice("The game host has changed FrameSendRate (order lag) to " + frameSendRate);
             }
 
             int maxAhead = Conversions.IntFromString(parts[partIndex + 4], MaxAhead);
             if (maxAhead != MaxAhead)
             {
                 MaxAhead = maxAhead;
-                AddNotice("房主变更 MaxAhead 的值为 " + maxAhead);
+                AddNotice("The game host has changed MaxAhead to " + maxAhead);
             }
 
             int protocolVersion = Conversions.IntFromString(parts[partIndex + 5], ProtocolVersion);
             if (protocolVersion != ProtocolVersion)
             {
                 ProtocolVersion = protocolVersion;
-                AddNotice("房主变更 ProtocolVersion 的值为 " + protocolVersion);
+                AddNotice("The game host has changed ProtocolVersion to " + protocolVersion);
             }
 
             GameMode currentGameMode = GameMode;
@@ -942,10 +951,12 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             GameMode = GameModes.Find(gm => gm.Name == gameMode);
             if (GameMode == null)
             {
+                ChangeMap(null, null);
+
                 if (!isMapOfficial)
                     RequestMap(mapSHA1);
                 else
-                    AddOfficialMapMissingMessage(mapSHA1);
+                    ShowOfficialMapMissingMessage(mapSHA1);
             }
             else
             {
@@ -953,15 +964,16 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
                 if (Map == null)
                 {
+                    ChangeMap(null, null);
+
                     if (!isMapOfficial)
                         RequestMap(mapSHA1);
                     else
-                        AddOfficialMapMissingMessage(mapSHA1);
+                        ShowOfficialMapMissingMessage(mapSHA1);
                 }
+                else if (GameMode != currentGameMode || Map != currentMap)
+                    ChangeMap(GameMode, Map);
             }
-
-            if (GameMode != currentGameMode || Map != currentMap)
-                ChangeMap(GameMode, Map);
 
             // By changing the game options after changing the map, we know which
             // game options were changed by the map and which were changed by the game host
@@ -985,7 +997,6 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                         "The game host's game version might be different from yours.", Color.Red);
                     return;
                 }
-                    
 
                 byte[] byteArray = BitConverter.GetBytes(checkBoxStatusInt);
                 bool[] boolArray = Conversions.BytesIntoBoolArray(byteArray);
@@ -1002,9 +1013,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                     if (checkBox.Checked != boolArray[optionIndex])
                     {
                         if (boolArray[optionIndex])
-                            AddNotice("房主开启了 " + checkBox.Text);
+                            AddNotice("The game host has enabled " + checkBox.Text);
                         else
-                            AddNotice("房主关闭了 " + checkBox.Text);
+                            AddNotice("The game host has disabled " + checkBox.Text);
                     }
 
                     CheckBoxes[gameOptionIndex].Checked = boolArray[optionIndex];
@@ -1015,7 +1026,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             {
                 if (parts.Length <= i)
                 {
-                    AddNotice("The game host has sent an valid game options message! " +
+                    AddNotice("The game host has sent an invalid game options message! " +
                         "The game host's game version might be different from yours.", Color.Red);
                     return;
                 }
@@ -1041,7 +1052,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                     if (dd.OptionName == null)
                         ddName = dd.Name;
 
-                    AddNotice("房主设置 " + ddName + " 为 " + dd.Items[ddSelectedIndex].Text);
+                    AddNotice("The game host has set " + ddName + " to " + dd.Items[ddSelectedIndex].Text);
                 }
 
                 DropDowns[i - checkBoxIntegerCount].SelectedIndex = ddSelectedIndex;
@@ -1065,12 +1076,10 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void RequestMap(string mapSHA1)
         {
-            ChangeMap(null, null);
             if (UserINISettings.Instance.EnableMapSharing)
             {
-                AddNotice("The game host has selected a map that doesn't exist on your installation. " +
-                    "Attempting to download it from the CnCNet map database.");
-                MapSharer.DownloadMap(mapSHA1, localGame);
+                AddNotice("The game host has selected a map that doesn't exist on your installation.");
+                mapSharingConfirmationPanel.ShowForMapDownload();
             }
             else
             {
@@ -1081,12 +1090,26 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             }
         }
 
-        private void AddOfficialMapMissingMessage(string sha1)
+        private void ShowOfficialMapMissingMessage(string sha1)
         {
-            AddNotice("The game host has selected an official map that doesn't exist on your installation." +
-                "This could mean that the game host has modified game files, or is running a different game version." +
+            AddNotice("The game host has selected an official map that doesn't exist on your installation. " +
+                "This could mean that the game host has modified game files, or is running a different game version. " +
                 "They need to change the map or you will be unable to participate in the match.");
             channel.SendCTCPMessage(MAP_SHARING_FAIL_MESSAGE + " " + sha1, QueuedMessageType.SYSTEM_MESSAGE, 9);
+        }
+
+        private void MapSharingConfirmationPanel_MapDownloadConfirmed(object sender, EventArgs e)
+        {
+            Logger.Log("Map sharing confirmed.");
+            AddNotice("Attempting to download map.");
+            mapSharingConfirmationPanel.SetDownloadingStatus();
+            MapSharer.DownloadMap(lastMapSHA1, localGame);
+        }
+
+        protected override void ChangeMap(GameMode gameMode, Map map)
+        {
+            mapSharingConfirmationPanel.Disable();
+            base.ChangeMap(gameMode, map);
         }
 
         /// <summary>
@@ -1162,7 +1185,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         protected override void StartGame()
         {
-            AddNotice("启动游戏...");
+            AddNotice("Starting game..");
 
             FileHashCalculator fhc = new FileHashCalculator();
             fhc.CalculateHashes(GameModes);
@@ -1195,10 +1218,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             iniFile.SetIntValue("Settings", "Port", localPlayer.Port);
         }
 
-        protected override void SendChatMessage(string message)
-        {
-            channel.SendChatMessage(message, chatColor);
-        }
+        protected override void SendChatMessage(string message) => channel.SendChatMessage(message, chatColor);
 
         #region Notifications
 
@@ -1295,7 +1315,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void ReturnNotification(string sender)
         {
-            AddNotice(sender + " 返回了游戏。");
+            AddNotice(sender + " has returned from the game.");
 
             PlayerInfo pInfo = Players.Find(p => p.Name == sender);
 
@@ -1307,10 +1327,10 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             if (ping > -1)
             {
-                AddNotice(sender + " - 连接到服务器的延迟为： " + ping + "毫秒");
+                AddNotice(sender + " - ping to tunnel server: " + ping + " ms");
             }
             else
-                AddNotice(sender + " - 连接到服务器的延迟未知。");
+                AddNotice(sender + " - unknown ping to tunnel server.");
         }
 
         private void FileHashNotification(string sender, string filesHash)
@@ -1335,8 +1355,8 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (sender != hostName)
                 return;
 
-            AddNotice("玩家 " + cheaterName + " 拥有不同于房主的游戏文件。玩家 " + 
-                cheaterName + " 或者房主都有可能正在作弊。", Color.Red);
+            AddNotice("Player " + cheaterName + " has different files compared to the game host. Either " + 
+                cheaterName + " or the game host could be cheating.", Color.Red);
         }
 
         protected override void BroadcastDiceRoll(int dieSides, int[] results)
@@ -1352,14 +1372,14 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         {
             if (!Locked)
             {
-                AddNotice("你锁定了游戏房间。");
+                AddNotice("You've locked the game room.");
                 LockGame();
             }
             else
             {
                 if (Players.Count < playerLimit)
                 {
-                    AddNotice("你解锁了游戏房间。");
+                    AddNotice("You've unlocked the game room.");
                     UnlockGame(false);
                 }
                 else
@@ -1374,7 +1394,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 string.Format("MODE {0} +i", channel.ChannelName), QueuedMessageType.INSTANT_MESSAGE, -1));
 
             Locked = true;
-            btnLockGame.Text = "解锁房间";
+            btnLockGame.Text = "Unlock Game";
             AccelerateGameBroadcasting();
         }
 
@@ -1385,11 +1405,11 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             Locked = false;
             if (announce)
-                AddNotice("游戏房间已解除锁定。");
-            btnLockGame.Text = "锁定房间";
+                AddNotice("The game room has been unlocked.");
+            btnLockGame.Text = "Lock Game";
             AccelerateGameBroadcasting();
         }
-        
+
         protected override void KickPlayer(int playerIndex)
         {
             if (playerIndex >= Players.Count)
@@ -1397,7 +1417,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             var pInfo = Players[playerIndex];
 
-            AddNotice("正在踢出 " + pInfo.Name + " ...");
+            AddNotice("Kicking " + pInfo.Name + " from the game...");
             channel.SendKickMessage(pInfo.Name, 8);
         }
 
@@ -1412,7 +1432,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
             if (user != null)
             {
-                AddNotice("封禁并踢出 " + pInfo.Name);
+                AddNotice("Banning and kicking " + pInfo.Name + " from the game...");
                 channel.SendBanMessage(user.Hostname, 8);
                 channel.SendKickMessage(user.Name, 8);
             }
@@ -1420,7 +1440,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         private void HandleCheatDetectedMessage(string sender)
         {
-            AddNotice(sender + " 拥有不同的客户端文件。他有可能正在作弊！", Color.Red);
+            AddNotice(sender + " has modified game files during the client session. They are likely attempting to cheat!", Color.Red);
         }
 
         private void HandleTunnelServerChangeMessage(string sender, string tunnelAddress)
@@ -1431,9 +1451,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             CnCNetTunnel tunnel = tunnelHandler.Tunnels.Find(t => t.Address == tunnelAddress);
             if (tunnel == null)
             {
-                AddNotice("房主选择了一个不可用的隧道服务器！" +
-                    "房主需要变更服务器否则你将无法" +
-                    "加入比赛。",
+                AddNotice("The game host has selected an invalid tunnel server! " +
+                    "The game host needs to change the server or you will be unable " +
+                    "to participate in the match.",
                     Color.Yellow);
                 btnLaunchGame.AllowClick = false;
                 return;
@@ -1450,16 +1470,14 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         private void HandleTunnelServerChange(CnCNetTunnel tunnel)
         {
             this.tunnel = tunnel;
-            AddNotice($"房主变更隧道服务器为：" +
+            AddNotice($"The game host has changed the tunnel server to: " +
                 $"{tunnel.Name} (Your ping: {tunnel.PingInMs} ms)");
         }
 
         #region CnCNet map sharing
 
-        private void MapSharer_MapDownloadFailed(object sender, SHA1EventArgs e)
-        {
-            WindowManager.AddCallback(new Action<SHA1EventArgs>(MapSharer_HandleMapDownloadFailed), e);
-        }
+        private void MapSharer_MapDownloadFailed(object sender, SHA1EventArgs e) 
+            => WindowManager.AddCallback(new Action<SHA1EventArgs>(MapSharer_HandleMapDownloadFailed), e);
 
         private void MapSharer_HandleMapDownloadFailed(SHA1EventArgs e)
         {
@@ -1467,6 +1485,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (hostUploadedMaps.Contains(e.SHA1))
             {
                 AddNotice("Download of the custom map failed. The host needs to change the map or you will be unable to participate in this match.");
+                mapSharingConfirmationPanel.SetFailedStatus();
 
                 channel.SendCTCPMessage(MAP_SHARING_FAIL_MESSAGE + " " + e.SHA1, QueuedMessageType.SYSTEM_MESSAGE, 9);
                 return;
@@ -1478,9 +1497,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         }
 
         private void MapSharer_MapDownloadComplete(object sender, SHA1EventArgs e)
-        {
-            WindowManager.AddCallback(new Action<SHA1EventArgs>(MapSharer_HandleMapDownloadComplete), e);
-        }
+            => WindowManager.AddCallback(new Action<SHA1EventArgs>(MapSharer_HandleMapDownloadComplete), e);
 
         private void MapSharer_HandleMapDownloadComplete(SHA1EventArgs e)
         {
@@ -1501,14 +1518,13 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             {
                 AddNotice(returnMessage, Color.Red);
                 AddNotice("Transfer of the custom map failed. The host needs to change the map or you will be unable to participate in this match.");
+                mapSharingConfirmationPanel.SetFailedStatus();
                 channel.SendCTCPMessage(MAP_SHARING_FAIL_MESSAGE + " " + e.SHA1, QueuedMessageType.SYSTEM_MESSAGE, 9);
             }
         }
 
         private void MapSharer_MapUploadFailed(object sender, MapEventArgs e)
-        {
-            WindowManager.AddCallback(new Action<MapEventArgs>(MapSharer_HandleMapUploadFailed), e);
-        }
+            => WindowManager.AddCallback(new Action<MapEventArgs>(MapSharer_HandleMapUploadFailed), e);
 
         private void MapSharer_HandleMapUploadFailed(MapEventArgs e)
         {
@@ -1525,9 +1541,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         }
 
         private void MapSharer_MapUploadComplete(object sender, MapEventArgs e)
-        {
-            WindowManager.AddCallback(new Action<MapEventArgs>(MapSharer_HandleMapUploadComplete), e);
-        }
+            => WindowManager.AddCallback(new Action<MapEventArgs>(MapSharer_HandleMapUploadComplete), e);
 
         private void MapSharer_HandleMapUploadComplete(MapEventArgs e)
         {
@@ -1653,9 +1667,7 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
         /// Lowers the time until the next game broadcasting message.
         /// </summary>
         private void AccelerateGameBroadcasting()
-        {
-            gameBroadcastTimer.Accelerate(TimeSpan.FromSeconds(GAME_BROADCAST_ACCELERATION));
-        }
+            => gameBroadcastTimer.Accelerate(TimeSpan.FromSeconds(GAME_BROADCAST_ACCELERATION));
 
         private void BroadcastGame()
         {
@@ -1708,9 +1720,6 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
 
         #endregion
 
-        public override string GetSwitchName()
-        {
-            return "游戏房间";
-        }
+        public override string GetSwitchName() => "Game Lobby";
     }
 }

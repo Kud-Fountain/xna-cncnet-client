@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">SharpDX</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DTAClient</RootNamespace>
     <AssemblyName>DTAClient</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <XnaPlatform>Windows</XnaPlatform>
@@ -43,7 +43,6 @@
     <DefineConstants>TRACE;DEBUG;DTA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|SharpDX' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -53,7 +52,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|WindowsGL' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -84,7 +82,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|XNAFramework' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -96,7 +93,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'YRRelease|SharpDX' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -106,7 +102,6 @@
     <DefineConstants>TRACE;YR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'YRRelease|WindowsGL' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -116,7 +111,6 @@
     <DefineConstants>TRACE;WINDOWSGL YR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'YRRelease|XNAFramework' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -127,8 +121,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>clienticon.ico</ApplicationIcon>
@@ -153,18 +146,18 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup />
-  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|WindowsGL' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsGL\Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|WindowsGL' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsGL\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Linux' ">
     <StartAction>Project</StartAction>
@@ -180,7 +173,6 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MORelease|WindowsGL'">
     <OutputPath>bin\WindowsGL\Release\</OutputPath>
@@ -189,7 +181,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>true</Optimize>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MORelease|XNAFramework'">
     <OutputPath>bin\XNAFramework\Release\</OutputPath>
@@ -198,10 +189,8 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup />
   <Choose>
     <When Condition="'$(Platform)' != 'XNAFramework'">
       <ItemGroup>
@@ -333,6 +322,7 @@
     <Compile Include="DXGUI\Multiplayer\CnCNet\CnCNetLoginWindow.cs" />
     <Compile Include="DXGUI\Multiplayer\CnCNet\GameCreationEventArgs.cs" />
     <Compile Include="DXGUI\Multiplayer\CnCNet\GameCreationWindow.cs" />
+    <Compile Include="DXGUI\Multiplayer\CnCNet\MapSharingConfirmationPanel.cs" />
     <Compile Include="DXGUI\Multiplayer\CnCNet\PasswordRequestWindow.cs" />
     <Compile Include="DXGUI\Multiplayer\CnCNet\PlayerContextMenu.cs" />
     <Compile Include="DXGUI\Multiplayer\CnCNet\TunnelListBox.cs" />

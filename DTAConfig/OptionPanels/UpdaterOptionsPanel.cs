@@ -170,5 +170,10 @@ namespace DTAConfig.OptionPanels
 
             return false;
         }
+
+        public override void ToggleMainMenuOnlyOptions(bool enable)
+        {
+            btnForceUpdate.AllowClick = enable;
+        }
     }
 }
